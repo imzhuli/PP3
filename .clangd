@@ -1,12 +1,10 @@
-CompileFlags:
-  CompilationDatabase: ./_build/    
-
 Diagnostics:
-  UnusedIncludes: None  
-  Suppress:
-    - "*"
-  
+  UnusedIncludes: None
+
 InlayHints:
   Enabled: No
   ParameterNames: Yes
   DeducedTypes: Yes
+
+CompileFlags:
+  Add: [-std=c++20]

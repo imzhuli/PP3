@@ -34,7 +34,6 @@
 //
 #include <cinttypes>
 #include <filesystem>
-namespace stdfs = std::filesystem;
 
 //
 using namespace xel::common;
