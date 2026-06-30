@@ -14,6 +14,10 @@ os.environ["CMAKE_INSTALL_PREFIX"] = f"{ce.root_dir}/{install_dir}"
 
 ############## build and install
 
-os.system("python3 ./_script/build_mmdb.py                 -r")
-os.system("python3 ./_script/build_xapp.py                 -r")
+os.system("python3 ./_script/build_openssl.py      -r")
+os.system("python3 ./_script/build_sasl2.py        -r")
+os.system("python3 ./_script/build_mmdb.py         -r")
+os.system("python3 ./_script/build_rdkfk.py        -r")
+os.system("python3 ./_script/build_x_common.py     -r")
+os.system("python3 ./_script/build_x_app.py        -r")
 

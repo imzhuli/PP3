@@ -7,4 +7,4 @@ InlayHints:
   DeducedTypes: Yes
 
 CompileFlags:
-  Add: [-std=c++20]
+  Add: [-std=c++23]

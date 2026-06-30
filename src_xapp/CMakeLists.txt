@@ -5,7 +5,8 @@ include(../cmake/shared_cpp_settings.cmake)
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${XEL_PREFIX})
 
-find_package(xel REQUIRED CONFIG)
+find_package(xel     REQUIRED CONFIG)
+find_package(RdKafka REQUIRED CONFIG)
 
 include_directories(
 	"${CMAKE_INSTALL_PREFIX}/include"
@@ -20,10 +21,12 @@ set(shared_lib_dependency_private pp_common xel::xel)
 aux_source_directory(ppp/pp_protocol                 PPP_SRC)
 aux_source_directory(ppp/pp_protocol/_backend        PPP_SRC)
 aux_source_directory(ppp/pp_protocol/_backend/kfk    PPP_SRC)
+aux_source_directory(ppp/abstract                    PPP_SRC)
+aux_source_directory(ppp/lib_component               PPP_SRC)
 aux_source_directory(ppp/lib_util                    PPP_SRC)
 
 add_library(ppp  ${PPP_SRC})
-target_link_libraries(ppp PRIVATE pp_common ${shared_lib_dependency_private})
+target_link_libraries(ppp PUBLIC RdKafka::rdkafka++ ${shared_lib_dependency_private})
 
 
 ################### apps
@@ -32,12 +35,13 @@ function(build_app sub_dir_name)
 	aux_source_directory       (${sub_dir_name} LOCAL_SOURCE_CODE)
 	add_executable             (${sub_dir_name} ${LOCAL_SOURCE_CODE})
 	target_include_directories (${sub_dir_name} PRIVATE ${PPP_HEADER_DIR})
-	target_link_libraries      (${sub_dir_name} PRIVATE ppp pp_common ${shared_lib_dependency_private})
+	target_link_libraries      (${sub_dir_name} PRIVATE ppp)
 endfunction()
 
 set(SUB_APPS)
 set(SUB_DIRS ${SUB_DIRS}
 	s_small_server_list
+	s_target_collector
 	)
 set(SUB_DIRS ${SUB_DIRS}
 	t_sign

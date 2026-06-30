@@ -1,0 +1,18 @@
+#pragma once
+#include <pp_common/_common.hpp>
+#include <pp_common/future.hpp>
+
+struct xDnsResult {
+    xNetAddress A4;
+    xNetAddress A6;
+};
+
+struct xDnsReultFuture : xFutureBase {
+    xExpected<xDnsResult> Result = UnexpctedResult;
+};
+
+extern xDnsReultFuture * GetDnsResultFuture(const xFutureHandle & Handle);
+
+struct xDnsAbstractService : xAbstract {
+    virtual bool ResolveDns(const std::string_view & HostnameView, xDnsReultFuture & Future) = 0;
+};
