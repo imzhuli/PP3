@@ -1,0 +1,61 @@
+# Prerequisites
+*.d
+
+# Memory dump files
+*.stackdump
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# spv (shader file)
+*.spv
+
+# default local build directory
+/__build
+/__installed_debug
+/__installed_release
+/bak
+/logs
+/test_assets
+__pycache__
+_generated
+
+.vscode
+.DS_Store
+*.swp
+*.log
+logs
+
+# generated source codes
+/cpp/pb
+/golang/pb
+
+
+# core dump

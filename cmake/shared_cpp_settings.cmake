@@ -1,0 +1,81 @@
+enable_language(CXX)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+####################################################################################
+
+find_package(Threads REQUIRED)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	add_compile_options("-wd4819")
+	add_compile_options("-Zc:preprocessor")
+	add_compile_options("-D_CRT_SECURE_NO_WARNINGS")
+	set(CMAKE_CXX_STANDARD 20)
+	set(LINK_OPTIONS_NO_CONSOLE "/SUBSYSTEM:WINDOWS" "/ENTRY:mainCRTStartup")
+	set(RELEASE_LINK_OPTIONS_NO_CONSOLE "$<$<CONFIG:Release>:${LINK_OPTIONS_NO_CONSOLE}>")
+	set(cpp Threads::Threads)
+else()
+	set(CMAKE_CXX_STANDARD 23)
+	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+	set(CMAKE_CXX_EXTENSIONS OFF)
+
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+		add_compile_options("-g")
+		add_compile_options("-Wall")
+		add_compile_options("-Wno-attributes")
+		add_compile_options("-Wno-parentheses")
+		add_compile_options("-Wno-deprecated-declarations")
+		add_compile_options("-Werror")
+		set(cpp stdc++fs stdc++ Threads::Threads)
+	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+		add_compile_options("-g")
+		add_compile_options("-Wall")
+		add_compile_options("-Wno-attributes")
+		add_compile_options("-Wno-parentheses")
+		add_compile_options("-Wno-deprecated-declarations")
+		add_compile_options("-Werror")
+		set(cpp c++fs c++ Threads::Threads)
+	elseif (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+		add_compile_options("-g")
+		add_compile_options("-Wall")
+		add_compile_options("-Wno-attributes")
+		add_compile_options("-Wno-parentheses")
+		add_compile_options("-Wno-deprecated-declarations")
+		add_compile_options("-Werror")
+		set(cpp Threads::Threads)
+	endif()
+endif()
+
+####################################################################################
+
+# enable specific macors by system type:
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+	set(cpp ${cpp} ws2_32 Mswsock)
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+	set(cpp ${cpp} dl)
+elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+	find_library(COCOA_LIBRARY Cocoa REQUIRED)
+	find_library(IOKIT_LIBRARY IOKit REQUIRED)
+	find_library(FUNDATION_LIBRARY Foundation REQUIRED)
+	find_library(SYSTEM_CONFIGURATION_LIBRARY SystemConfiguration REQUIRED)
+	set(cpp ${cpp} dl ${SYSTEM_CONFIGURATION_LIBRARY} ${FUNDATION_LIBRARY} ${IOKIT_LIBRARY} ${COCOA_LIBRARY} )
+endif()
+
+
+####################################################################################
+
+set(CMAKE_BUILD_RPATH_USE_ORIGIN               TRUE)
+set(CMAKE_INSTALL_REMOVE_ENVIRONMENT_RPATH     TRUE)
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH          FALSE)
+if(WIN32)
+    set(CMAKE_SKIP_RPATH                       TRUE)
+    set(CMAKE_INSTALL_RPATH                    "")
+elseif(APPLE)
+	set(CMAKE_INSTALL_RPATH                    "@loader_path")
+else()
+	set(CMAKE_INSTALL_RPATH                    "\$ORIGIN")
+endif()
+
+####################################################################################
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+	message(FATAL_ERROR  "install path is set to default, where is required to be explicitly assigned")
+endif()

@@ -1,0 +1,89 @@
+---
+### General config, applies to all languages ###
+BasedOnStyle: Google
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never ##ForContinuationAndIndentation
+ColumnLimit: 0
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: true
+NamespaceIndentation: All
+Cpp11BracedListStyle: false
+
+DerivePointerAlignment: false
+PointerAlignment: Middle
+ReferenceAlignment: Middle
+QualifierAlignment: Leave
+
+PackConstructorInitializers: NextLineOnly
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AccessModifierOffset: -4
+
+AlignConsecutiveMacros: true
+AlignEscapedNewlines: true
+PenaltyBreakAssignment: 1
+SpaceBeforeParens: ControlStatements
+
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortLambdasOnASingleLine: true
+
+AlignTrailingComments: true
+AlignAfterOpenBracket: BlockIndent
+AlignOperands: DontAlign
+AlwaysBreakAfterReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 200
+
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AlignCompound: true
+  PadOperators: false
+  AcrossEmptyLines: false
+  AcrossComments: true
+
+AlignConsecutiveAssignments:
+  Enabled: true
+  AlignCompound: true
+  PadOperators: false
+  AcrossEmptyLines: false
+  AcrossComments: true
+
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterEnum: false
+  AfterStruct: false
+  AfterClass: false
+  AfterFunction: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+
+BreakConstructorInitializers: BeforeComma
+BreakInheritanceList: BeforeComma
+
+---
+### C++ specific config ###
+Language:        Cpp
+Standard:        c++20
+
+IncludeCategories:
+  - Regex:           '".*"'
+    Priority:        1
+  - Regex:           '^<.*\.h>'
+    Priority:        2
+  - Regex:           '^<.*'
+    Priority:        3
+
+---
+### ObjC specific config ###
+Language:        ObjC
+# ObjCBinPackProtocolList: Auto
+ObjCBlockIndentWidth: 4
+# ObjCBreakBeforeNestedBlockParam: true
+# ObjCSpaceAfterProperty: false
+# ObjCSpaceBeforeProtocolList: true
+---
+### Java specific config ###
+Language:        Java
+# BreakAfterJavaFieldAnnotations: false
+JavaImportGroups: ['org.godotengine', 'android', 'androidx', 'com.android', 'com.google', 'java', 'javax']
