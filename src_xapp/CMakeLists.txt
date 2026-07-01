@@ -18,12 +18,14 @@ set(shared_lib_dependency_private pp_common xel::xel)
 
 ################### protocol
 
-aux_source_directory(ppp/pp_protocol                 PPP_SRC)
-aux_source_directory(ppp/pp_protocol/_backend        PPP_SRC)
-aux_source_directory(ppp/pp_protocol/_backend/kfk    PPP_SRC)
-aux_source_directory(ppp/abstract                    PPP_SRC)
-aux_source_directory(ppp/lib_component               PPP_SRC)
-aux_source_directory(ppp/lib_util                    PPP_SRC)
+aux_source_directory(ppp/pp_protocol                      PPP_SRC)
+aux_source_directory(ppp/pp_protocol/_backend             PPP_SRC)
+aux_source_directory(ppp/pp_protocol/_backend/kfk         PPP_SRC)
+aux_source_directory(ppp/abstract                         PPP_SRC)
+aux_source_directory(ppp/lib_component                    PPP_SRC)
+aux_source_directory(ppp/lib_component/local_device       PPP_SRC)
+aux_source_directory(ppp/lib_component/remote_device      PPP_SRC)
+aux_source_directory(ppp/lib_util                         PPP_SRC)
 
 add_library(ppp  ${PPP_SRC})
 target_link_libraries(ppp PUBLIC RdKafka::rdkafka++ ${shared_lib_dependency_private})

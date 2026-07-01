@@ -18,7 +18,7 @@ public:
         uint64_t AuditLastSegAverageLatency = 0;  // micro->milli
     };
 
-    void   Tick(uint64_t NowMS);
+    void   Tick();
     void   Reset();
     xAudit GetAudit() const;
 
@@ -86,8 +86,8 @@ void xKfkDeliveryReportCb::Reset() {
     xel::Reset(LastSegTotalLatency);
 }
 
-void xKfkDeliveryReportCb::Tick(uint64_t NowMS) {
-    LocalTicker.Update(NowMS);
+void xKfkDeliveryReportCb::Tick() {
+    auto NowMS = LocalTicker.Update();
     if (NowMS - LastAuditTimestampMS < AuditTimeoutMS) {
         return;
     }
@@ -196,7 +196,7 @@ void xRdKfkProducer::Clean() {
 
 void xRdKfkProducer::Poll(uint64_t TimeoutMS) {
     NativeProducer->poll((int)TimeoutMS);
-    KfkDeliveryReportCB->Tick(xel::GetTimestampMS());
+    KfkDeliveryReportCB->Tick();
 }
 
 uint64_t xRdKfkProducer::AddTopic(const std::string & TopicName) {

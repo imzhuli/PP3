@@ -3,15 +3,16 @@
 #include <pp_common/device.hpp>
 #include <pp_common/future.hpp>
 
-struct xDeviceCreateConnectionFuture : xFutureBase {
-    xExpected<uint64_t> Result = UnexpctedResult;
+/************************** */
+
+struct xDeviceConnectionReference final {
+    uint64_t DeviceId     = 0;
+    uint64_t ConnectionId = 0;
 };
 
-struct xDeviceCreateUdpChannelFuture : xFutureBase {
-    xExpected<uint64_t> Result = UnexpctedResult;
-};
-
-struct xDeviceAbstract {
+struct xDeviceUdpChannelReference final {
+    uint64_t DeviceId     = 0;
+    uint64_t UdpChannelId = 0;
 };
 
 /************************** */

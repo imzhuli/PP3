@@ -6,9 +6,9 @@
 #include <pp_common/service_runtime.hpp>
 
 #ifndef NDEBUG
-static constexpr const uint64_t UPDATE_SERVER_LIST_SLAVE_TIMEOUT_MS = 5'000;
+static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 60'000;
 #else
-static constexpr const uint64_t UPDATE_SERVER_LIST_SLAVE_TIMEOUT_MS = 10 * 60'000;
+static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 5 * 60'000;
 #endif
 
 bool xSmallServerListDownloader::Init(const xNetAddress & ServerListServerAddress, const xNetAddress & LocalBindAddress) {
@@ -41,7 +41,7 @@ void xSmallServerListDownloader::Clean() {
 void xSmallServerListDownloader::Tick(uint64_t NowMS) {
     LocalTicker.Update(NowMS);
     UpdateServerListSlaveList();
-    UpdateEnabledServerList();
+    UpdateOneEnabledServerList();
 }
 
 void xSmallServerListDownloader::EnableServerGroup(xServerGroup Type) {
@@ -75,7 +75,7 @@ xSmallServerListDownloader::xServerListView xSmallServerListDownloader::GetServe
 
 void xSmallServerListDownloader::UpdateServerListSlaveList() {
     auto NowMS = LocalTicker();
-    if (LastUpdateServerListSlaveListTimestampMS > NowMS - UPDATE_SERVER_LIST_SLAVE_TIMEOUT_MS) {
+    if (LastUpdateServerListSlaveListTimestampMS > NowMS - UPDATE_SERVER_LIST_TIMEOUT_MS) {
         return;
     }
     LastUpdateServerListSlaveListTimestampMS = NowMS;
@@ -85,9 +85,9 @@ void xSmallServerListDownloader::UpdateServerListSlaveList() {
     DownloadService.PostMessage(ServerListServerMasterAddress, Cmd_DownloadSmallServerList, xPacketRequestId(Req.ServerGroup), Req);
 }
 
-void xSmallServerListDownloader::UpdateEnabledServerList() {
+void xSmallServerListDownloader::UpdateOneEnabledServerList() {
     auto NowMS = LocalTicker();
-    auto Cond  = [Timepoint = NowMS - UPDATE_SERVER_LIST_SLAVE_TIMEOUT_MS](const xEnabledServerGroupNode & Node) {
+    auto Cond  = [Timepoint = NowMS - UPDATE_SERVER_LIST_TIMEOUT_MS](const xEnabledServerGroupNode & Node) {
         return Node.LastUpdateTimestampMS <= Timepoint;
     };
     // update only one server list each time.

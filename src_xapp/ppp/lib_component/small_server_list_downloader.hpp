@@ -25,7 +25,7 @@ private:
     const xNetAddress & SelectServerListServer();
 
     void UpdateServerListSlaveList();
-    void UpdateEnabledServerList();
+    void UpdateOneEnabledServerList();
     void OnUdpPacket(const xUdpServiceChannelHandle &, xPacketCommandId, xPacketRequestId, ubyte *, size_t);
 
 private:

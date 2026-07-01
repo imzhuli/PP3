@@ -23,8 +23,8 @@ struct xRelayAbstractService
     virtual void PostData(uint64_t RelayServerId, uint64_t ConnectionlId, const void * Payload, size_t PayloadSize)                                                                                                = 0;
     virtual void DestroyConnection(uint64_t RelayServerId, uint64_t ConnectionId)                                                                                                                                  = 0;
     //
-    virtual void CreateUdpChannel(uint64_t RelayServerId, uint64_t DeviceId, uint64_t PASideUdpChannelId, xRelayCreateUdpChannelFuture & Future)           = 0;
-    virtual void KeepUdpChannelAlive(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                        = 0;
-    virtual void PostData(uint64_t RelayServerId, uint64_t UdpChannelId, const xel::xNetAddress & TargetAddress, const void * Payload, size_t PayloadSize) = 0;  // udp channel
-    virtual void DestroyUdpChannel(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                          = 0;
+    virtual void CreateUdpChannel(uint64_t RelayServerId, uint64_t DeviceId, uint64_t PASideUdpChannelId, xRelayCreateUdpChannelFuture & Future)                                                                   = 0;
+    virtual void KeepUdpChannelAlive(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                                                                                = 0;
+    virtual void PostData(uint64_t RelayServerId, uint64_t UdpChannelId, const xel::xNetAddress & TargetAddress, const void * Payload, size_t PayloadSize)                                                         = 0;  // udp channel
+    virtual void DestroyUdpChannel(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                                                                                  = 0;
 };
