@@ -1,9 +1,9 @@
 #include "./audit_service.hpp"
 
-#include "../pp_protocol/command.hpp"
-#include "../pp_protocol/p_audit_collect.hpp"
-#include "../pp_protocol/p_block_account.hpp"
-#include "../pp_protocol/p_target_collect.hpp"
+#include "../../pp_protocol/command.hpp"
+#include "../../pp_protocol/p_audit_collect.hpp"
+#include "../../pp_protocol/p_block_account.hpp"
+#include "../../pp_protocol/p_target_collect.hpp"
 
 #include <pp_common/service_runtime.hpp>
 
@@ -195,6 +195,10 @@ void xAuditService::ReportUsage(const xAuditUsage & UsageInfo) {
 }
 
 void xAuditService::ReportBlockAccount(const xAuditBlockAccount & BlockAccountInfo) {
+    if (!AuditServerList.Size) {
+        ++Audit.NoServerReport;
+        return;
+    }
     auto SelectedConnectionId = ConnectionIdList[BlockAccountInfo.AuthId % AuditServerList.Size];
     auto Req                  = xPP_BlockAccount();
     Req.GlobalAuthId          = BlockAccountInfo.AuthId;

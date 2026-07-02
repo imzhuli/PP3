@@ -142,7 +142,7 @@ void xAuthLocalService::AcquireAuthInfo(const std::string_view AccountPassView, 
 #ifndef NDEBUG
         for (auto & Entry : AuthLocalMap) {
             auto & LR = Entry.second;
-            Logger->D("New auth entry: %s, LocalAuthId=%" PRIx64 ", GlobalAuthId=%" PRIu64 "", StrToHex(Entry.first), LR.LocalAuthId, LR.GlobalAuthId);
+            Logger->D("New auth entry: %s, LocalAuthId=%" PRIx64 ", GlobalAuthId=%" PRIu64 "", StrToHex(Entry.first).c_str(), LR.LocalAuthId, LR.GlobalAuthId);
         }
 #endif
 

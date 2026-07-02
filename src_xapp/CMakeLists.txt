@@ -25,6 +25,7 @@ aux_source_directory(ppp/abstract                         PPP_SRC)
 aux_source_directory(ppp/lib_component                    PPP_SRC)
 aux_source_directory(ppp/lib_component/local_device       PPP_SRC)
 aux_source_directory(ppp/lib_component/remote_device      PPP_SRC)
+aux_source_directory(ppp/lib_component/audit_service      PPP_SRC)
 aux_source_directory(ppp/lib_util                         PPP_SRC)
 
 add_library(ppp  ${PPP_SRC})

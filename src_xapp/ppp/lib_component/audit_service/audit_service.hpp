@@ -1,6 +1,6 @@
 #pragma once
-#include "../abstract/audit_abstract.hpp"
-#include "./small_server_list_downloader.hpp"
+#include "../../abstract/audit_abstract.hpp"
+#include "../small_server_list_downloader.hpp"
 
 #include <pp_common/_.hpp>
 #include <random>
