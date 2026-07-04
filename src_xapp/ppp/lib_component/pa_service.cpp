@@ -677,23 +677,29 @@ size_t xProxyAccessService::OnS5Target(xPA_ClientConnection * Connection, ubyte 
             return 0;
         }
     } else if (Operation == 0x03) {  // udp
+        if (!Connection->EnableUdpTarget) {
+            DEBUG_LOG("udp target not enabled");
+            Connection->PostData(S5_UDPCHANNEL_GENERIC_ERROR, sizeof(S5_UDPCHANNEL_GENERIC_ERROR));
+            return 0;
+        }
+
         // create local binding udp channel
         const auto & BindIp         = Connection->GetLocalAddress().Ip();
         const auto & UdpBindAddress = ((AddrType == 0x01 && BindIp.Is4()) || ((AddrType == 0x04 && BindIp.Is6())) ? BindIp : xNetAddress{});
         if (!UdpBindAddress) {
-            DEBUG_LOG();
+            DEBUG_LOG("invalid target address");
             Connection->PostData(S5_UDPCHANNEL_GENERIC_ERROR, sizeof(S5_UDPCHANNEL_GENERIC_ERROR));
             return 0;
         }
         auto UdpChannelId = ClientUdpChannelPool.Acquire();
         if (!UdpChannelId) {
-            DEBUG_LOG();
+            DEBUG_LOG("udp channel OOM");
             Connection->PostData(S5_UDPCHANNEL_GENERIC_ERROR, sizeof(S5_UDPCHANNEL_GENERIC_ERROR));
             return 0;
         }
         auto & UdpChannel = ClientUdpChannelPool[UdpChannelId];
         if (!UdpChannel.Init(ServiceIoContext, UdpBindAddress, this)) {
-            DEBUG_LOG();
+            DEBUG_LOG("failed to bind udp channel");
             Connection->PostData(S5_UDPCHANNEL_GENERIC_ERROR, sizeof(S5_UDPCHANNEL_GENERIC_ERROR));
             ClientUdpChannelPool.Release(UdpChannelId);
             return 0;
@@ -1108,8 +1114,9 @@ void xProxyAccessService::OnS5AuthResult(xPA_ClientConnection * Connection, xPA_
         SendS5AuthError(Connection);
         return;
     }
-    Connection->LocalAuthId  = Result->LocalAuthId;
-    Connection->GlobalAuthId = Result->GlobalAuthId;
+    Connection->LocalAuthId     = Result->LocalAuthId;
+    Connection->GlobalAuthId    = Result->GlobalAuthId;
+    Connection->EnableUdpTarget = Result->EnableUdp;
 
     // Acquire device
     auto DeviceRequest = xDeviceRequest{

@@ -31,6 +31,7 @@ struct xPA_ClientConnection
     xPA_ClientUdpChannel *              BindUdpChannel                = {};
     bool                                DeleteMark                    = false;
     bool                                NoAuth                        = false;
+    bool                                EnableUdpTarget               = false;
     xPA_TcpDataProcessor                DataProcessor                 = {};
     eType                               Type                          = UNDETERMINED;
     xPA_AuthFuture *                    AuthFuture                    = nullptr;
