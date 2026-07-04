@@ -1,15 +1,6 @@
 #pragma once
 #include "../../abstract/device_abstract.hpp"
 
-/*********************** */
-
-struct xDeviceUdpChannelAbstract {
-    virtual bool PostData(const void * DataPtr, size_t Data) = 0;
-    virtual void Close()                                     = 0;
-};
-
-/************************** */
-
 struct xDeviceCreateConnectionFuture : xFutureBase {
     xExpected<uint64_t /* ConnectionId */> Result = UnexpctedResult;
 };
@@ -18,7 +9,7 @@ struct xDeviceCreateUdpChannelFuture : xFutureBase {
     xExpected<uint64_t /* UdpChannelId */> Result = UnexpctedResult;
 };
 
-struct xDeviceManagerAbstract {
+struct xDeviceManagerAbstract : xAbstract {
     using xDeviceConectionEstablishedCallback = std::function<void(uint64_t ConnectionId, bool Connected)>;
     using xDeviceConectionClosedCallback      = std::function<void(uint64_t ConnectionId)>;
     using xDeviceConnectionDataCallback       = std::function<void(uint64_t ConnectionId, void * DataPtr, size_t DataSize)>;

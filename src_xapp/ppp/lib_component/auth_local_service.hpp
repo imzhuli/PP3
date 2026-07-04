@@ -47,13 +47,13 @@ struct xAuthLocalUsageAuditNode final : xListNode {
     std::string ToString() const;
 };
 
-class xAuthLocalService final : public xAuthAbstractService {
+class xAuthLocalService final : public xAuthServiceAbstract {
 public:
     bool        Init(const std::string & AuthFilePath);
     void        Clean();
     void        Tick(uint64_t NowMS);
     std::string OutputAudit() const;
-    void        BindAuditService(xAuditAbstractService * Service) { AuditService = Service; }
+    void        BindAuditService(xAuditServiceAbstract * Service) { AuditService = Service; }
 
     void AcquireAuthInfo(const std::string_view AccountPassView, xAuthResultFuture & Future) override;
     void ReleaseAuthInfo(uint64_t LocalAuthId, const xLocalUsage & Usage) override;
@@ -73,7 +73,7 @@ private:
     xList<xAuthLocalUsageAuditNode>           LocalAuditTimeoutList;
     std::thread                               ReloadAuthFileThread;
     //
-    xAuditAbstractService *                   AuditService;
+    xAuditServiceAbstract *                   AuditService;
 
     struct {
         std::vector<std::filesystem::path>           FileList;

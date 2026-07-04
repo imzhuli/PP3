@@ -36,7 +36,7 @@ struct xAuthResultFuture : xFutureBase {
     xExpected<xAuthResult> Result = UnexpctedResult;
 };
 
-class xAuthAbstractService : xAbstract {
+class xAuthServiceAbstract : xAbstract {
 public:
     virtual void AcquireAuthInfo(const std::string_view AccountPassView, xAuthResultFuture & Future) = 0;
     virtual void ReleaseAuthInfo(uint64_t LocalAuthId, const xLocalUsage & Audit)                    = 0;

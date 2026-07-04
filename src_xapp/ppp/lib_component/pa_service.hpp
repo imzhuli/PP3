@@ -77,7 +77,7 @@ class xProxyAccessService final
     : xTcpServer::iListener
     , xTcpConnection::iListener
     , xUdpChannel::iListener
-    , public xProxyAbstractService {
+    , public xProxyServiceAbstract {
 public:
     struct xExportBindAddress {
         xNetAddress BindAddress;
@@ -88,10 +88,10 @@ public:
     bool Init(const std::vector<xExportBindAddress> & AddressList);
     void Clean();
     void Tick(uint64_t NowMS);
-    void BindAuthService(xAuthAbstractService * Service) { AuthService = Service; }
-    void BindDeviceLocatorService(xDeviceLocatorAbstractService * Service) { DeviceLocatorService = Service; }
-    void BindRelayService(xRelayAbstractService * Service) { RelayService = Service; }
-    void BindTargetReportService(xTargetReporterAbstractService * Service) { TargetReportService = Service; }
+    void BindAuthService(xAuthServiceAbstract * Service) { AuthService = Service; }
+    void BindDeviceLocatorService(xDeviceLocatorServiceAbstract * Service) { DeviceLocatorService = Service; }
+    void BindRelayService(xRelayServiceAbstract * Service) { RelayService = Service; }
+    void BindTargetReportService(xTargetReporterServiceAbstract * Service) { TargetReportService = Service; }
     void EnableUdp4(const xNetAddress & BindAddress, const xNetAddress & ExportAddress);
     void EnableUdp6(const xNetAddress & BindAddress, const xNetAddress & ExportAddress);
     void SetClientBufferSize(size_t Size);
@@ -195,10 +195,10 @@ private:
     xFuturePoolManager<xPA_AcquireDeviceConnectionFuture> AcquireDeviceConnectionFutureManager;
     xFuturePoolManager<xPA_AcquireDeviceUdpChannelFuture> AcquireDeviceUdpChannelFutureManager;
 
-    xAuthAbstractService *           AuthService          = nullptr;
-    xDeviceLocatorAbstractService *  DeviceLocatorService = nullptr;
-    xRelayAbstractService *          RelayService         = nullptr;
-    xTargetReporterAbstractService * TargetReportService  = nullptr;
+    xAuthServiceAbstract *           AuthService          = nullptr;
+    xDeviceLocatorServiceAbstract *  DeviceLocatorService = nullptr;
+    xRelayServiceAbstract *          RelayService         = nullptr;
+    xTargetReporterServiceAbstract * TargetReportService  = nullptr;
 
     xFutureList AuthFutureTimeoutList;
     xFutureList AcquireDeviceFutureTimeoutList;

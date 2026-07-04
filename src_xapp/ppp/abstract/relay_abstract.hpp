@@ -15,7 +15,7 @@ struct xRelayCreateUdpChannelFuture : xFutureBase {
     xExpected<uint64_t> Result = UnexpctedResult;
 };
 
-struct xRelayAbstractService
+struct xRelayServiceAbstract
     : xAbstract
     , xNonCopyable {
     virtual void CreateConnection(uint64_t RelayServerId, uint64_t DeviceId, uint64_t PASideConnectionId, const std::string_view & TargetHostnameView, uint16_t TargetPort, xRelayCreateConnectionFuture & Future) = 0;

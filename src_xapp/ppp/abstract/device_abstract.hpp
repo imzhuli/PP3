@@ -5,18 +5,6 @@
 
 /************************** */
 
-struct xDeviceConnectionReference final {
-    uint64_t DeviceId     = 0;
-    uint64_t ConnectionId = 0;
-};
-
-struct xDeviceUdpChannelReference final {
-    uint64_t DeviceId     = 0;
-    uint64_t UdpChannelId = 0;
-};
-
-/************************** */
-
 struct xDeviceReference {
     uint64_t RelayServerId;
     uint64_t RelaySideDeviceId;
@@ -36,6 +24,6 @@ struct xDeviceRequest {
     xDeviceSelectionStrategy Strategy;
 };
 
-struct xDeviceLocatorAbstractService : xAbstract {
+struct xDeviceLocatorServiceAbstract : xAbstract {
     virtual void AcquireDevice(const xDeviceRequest & Request, xAcquireDeviceFuture & Future) = 0;
 };

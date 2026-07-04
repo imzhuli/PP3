@@ -33,7 +33,7 @@ struct xDnsLocalCacheNode : xListNode {
 };
 using xDnsLocalCacheTimeoutList = xList<xDnsLocalCacheNode>;
 
-class xDnsLocalService final : public xDnsAbstractService {
+class xDnsLocalService final : public xDnsServiceAbstract {
 public:
     bool Init();
     void Clean();
