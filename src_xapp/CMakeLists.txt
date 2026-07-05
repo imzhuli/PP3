@@ -38,7 +38,7 @@ function(build_app sub_dir_name)
 	aux_source_directory       (${sub_dir_name} LOCAL_SOURCE_CODE)
 	add_executable             (${sub_dir_name} ${LOCAL_SOURCE_CODE})
 	target_include_directories (${sub_dir_name} PRIVATE ${PPP_HEADER_DIR})
-	target_link_libraries      (${sub_dir_name} PRIVATE ppp)
+	target_link_libraries      (${sub_dir_name} PRIVATE ppp absl::flat_hash_map)
 endfunction()
 
 set(SUB_APPS)
@@ -47,6 +47,7 @@ set(SUB_DIRS ${SUB_DIRS}
 	s_target_collector
 	)
 set(SUB_DIRS ${SUB_DIRS}
+	t_component
 	t_sign
 	)
 foreach(item IN LISTS SUB_DIRS)

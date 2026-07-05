@@ -1,6 +1,6 @@
 #pragma once
 #include "../abstract/audit_abstract.hpp"
-#include "../abstract/device_abstract.hpp"
+#include "../abstract/device_locator_abstract.hpp"
 #include "../abstract/pa_abstract.hpp"
 #include "../abstract/relay_abstract.hpp"
 #include "./pa_future.hpp"

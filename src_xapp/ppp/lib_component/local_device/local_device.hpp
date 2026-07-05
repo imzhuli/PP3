@@ -1,2 +1,7 @@
 #pragma once
-#include "../../abstract/device_abstract.hpp"
+#include <pp_common/_.hpp>
+
+struct xLocalDeviceBinding final {
+    xNetAddress BindAddress;
+    xNetAddress ExportAddress;
+};

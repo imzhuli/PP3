@@ -1,5 +1,5 @@
 #pragma once
-#include "../abstract/device_abstract.hpp"
+#include "../abstract/device_locator_abstract.hpp"
 #include "../abstract/dns_abstract.hpp"
 #include "../abstract/relay_abstract.hpp"
 #include "./pa_future.hpp"

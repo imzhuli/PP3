@@ -1,2 +1,2 @@
 #pragma once
-#include "../../abstract/device_abstract.hpp"
+#include "../../abstract/device_locator_abstract.hpp"

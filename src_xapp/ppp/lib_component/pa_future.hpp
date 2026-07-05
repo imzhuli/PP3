@@ -1,6 +1,6 @@
 #pragma once
 #include "../abstract/auth_abstract.hpp"
-#include "../abstract/device_abstract.hpp"
+#include "../abstract/device_locator_abstract.hpp"
 #include "../abstract/pa_abstract.hpp"
 #include "../abstract/relay_abstract.hpp"
 
