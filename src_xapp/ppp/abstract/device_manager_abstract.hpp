@@ -13,12 +13,14 @@ struct xDeviceManagerAbstract : xAbstract {
     using xDeviceConectionEstablishedCallback = std::function<void(uint64_t ConnectionId, bool Connected)>;
     using xDeviceConectionClosedCallback      = std::function<void(uint64_t ConnectionId)>;
     using xDeviceConnectionDataCallback       = std::function<void(uint64_t ConnectionId, void * DataPtr, size_t DataSize)>;
+    using xDeviceUdpChannelReadyCallback      = std::function<void(uint64_t UdpChannelId)>;
     using xDeviceUdpChannelDataCallback       = std::function<void(uint64_t UdpChannelId, const xNetAddress & TargetAddress, void * DataPtr, size_t DataSize)>;
 
     struct xEventCallback {
         xDeviceConectionEstablishedCallback OnConnectionEstablished;
         xDeviceConectionClosedCallback      OnConnectionClosed;
         xDeviceConnectionDataCallback       OnConnectionData;
+        xDeviceUdpChannelReadyCallback      OnUdpChannelReady;
         xDeviceUdpChannelDataCallback       OnUdpChannelData;
     };
 

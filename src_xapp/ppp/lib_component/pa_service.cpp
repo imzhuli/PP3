@@ -1,5 +1,7 @@
 #include "./pa_service.hpp"
 
+#include "../const/ppp_const.hpp"
+
 #include <pp_common/service_runtime.hpp>
 
 static constexpr const size_t   PA_CLIENT_AUTH_TIMEOUT_MS        = 5'000;
@@ -10,7 +12,6 @@ static constexpr const size_t   PA_MAX_CLIENT_CONNECTION         = 20'0000;
 static constexpr const size_t   PA_MAX_CLIENT_REQUEST_PER_SECOND = 5'0000;
 static constexpr const size_t   PA_MAX_UDP_PACKET_SIZE           = 4200;
 static constexpr const size_t   PA_UDP_RESERVED_HEADER_SIZE      = 32;
-static constexpr const size_t   PA_IDLE_CONNECTION_TIMEOUT_MS    = 125'000;
 static constexpr const size_t   PA_CLIENT_DEFAULT_BUFFER_SIZE    = 16'000;
 
 static_assert(PA_MAX_UDP_PACKET_SIZE + PA_UDP_RESERVED_HEADER_SIZE < xel::MaxPacketSize);  // core_io buffer size
@@ -353,7 +354,7 @@ void xProxyAccessService::DeferKillInitTimeoutConnection() {
 }
 
 void xProxyAccessService::DeferKillIdleTimeoutConnection() {
-    auto KillTimepoint = LocalTicker() - PA_IDLE_CONNECTION_TIMEOUT_MS;
+    auto KillTimepoint = LocalTicker() - CLIENT_CONNECTION_IDLE_TIMEOUT_MS;
     auto Cond          = [this, KillTimepoint](const xPA_ClientConnectionTimeoutNode & N) {
         return N.TimestampMS <= KillTimepoint;
     };

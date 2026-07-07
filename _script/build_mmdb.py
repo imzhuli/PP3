@@ -25,8 +25,8 @@ cwd = ce.root_dir
 build_path = f"{cwd}/__build"
 cmake_install_prefix = f"-DCMAKE_INSTALL_PREFIX={install_path}" if (install_path := os.getenv("CMAKE_INSTALL_PREFIX")) else ""
 
-src_file = f"{cwd}/src_3rd/libmaxminddb-1.9.1.tar.gz"
-unzipped_src_dir = f"{build_path}/libmaxminddb-1.9.1"
+src_file = f"{cwd}/src_3rd/libmaxminddb-1.13.3.tar.gz"
+unzipped_src_dir = f"{build_path}/libmaxminddb-1.13.3"
 
 ###############################################
 

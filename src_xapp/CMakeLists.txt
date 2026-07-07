@@ -5,8 +5,9 @@ include(../cmake/shared_cpp_settings.cmake)
 
 set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} ${XEL_PREFIX})
 
-find_package(xel     REQUIRED CONFIG)
-find_package(RdKafka REQUIRED CONFIG)
+find_package(xel       REQUIRED CONFIG)
+find_package(RdKafka   REQUIRED CONFIG)
+find_package(maxminddb REQUIRED CONFIG)
 
 include_directories(
 	"${CMAKE_INSTALL_PREFIX}/include"
@@ -22,6 +23,7 @@ aux_source_directory(ppp/pp_protocol                      PPP_SRC)
 aux_source_directory(ppp/pp_protocol/_backend             PPP_SRC)
 aux_source_directory(ppp/pp_protocol/_backend/kfk         PPP_SRC)
 aux_source_directory(ppp/abstract                         PPP_SRC)
+aux_source_directory(ppp/const                            PPP_SRC)
 aux_source_directory(ppp/lib_component                    PPP_SRC)
 aux_source_directory(ppp/lib_component/local_device       PPP_SRC)
 aux_source_directory(ppp/lib_component/remote_device      PPP_SRC)
@@ -38,7 +40,7 @@ function(build_app sub_dir_name)
 	aux_source_directory       (${sub_dir_name} LOCAL_SOURCE_CODE)
 	add_executable             (${sub_dir_name} ${LOCAL_SOURCE_CODE})
 	target_include_directories (${sub_dir_name} PRIVATE ${PPP_HEADER_DIR})
-	target_link_libraries      (${sub_dir_name} PRIVATE ppp absl::flat_hash_map)
+	target_link_libraries      (${sub_dir_name} PRIVATE ppp maxminddb::maxminddb absl::flat_hash_map)
 endfunction()
 
 set(SUB_APPS)
@@ -47,6 +49,7 @@ set(SUB_DIRS ${SUB_DIRS}
 	s_target_collector
 	)
 set(SUB_DIRS ${SUB_DIRS}
+	t_cnfilter
 	t_component
 	t_sign
 	)
