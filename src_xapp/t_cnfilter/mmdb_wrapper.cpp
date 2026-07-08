@@ -4,11 +4,11 @@ xMmdbWrapper::xMmdbWrapper(const char * filename) {
     if (MMDB_SUCCESS != MMDB_open(filename, MMDB_MODE_MMAP, &MMDB)) {
         return;
     }
-    Inited = true;
+    NoError = true;
 }
 
 xMmdbWrapper::~xMmdbWrapper() {
-    if (!Inited) {
+    if (!NoError) {
         return;
     }
     MMDB_close(&MMDB);

@@ -5,14 +5,15 @@
 
 using xIsoCountryName = std::array<char, 2>;
 
-class xMmdbWrapper : xNonCopyable {
+class xMmdbWrapper final : xNonCopyable {
 public:
     xMmdbWrapper(const char * filename);
     ~xMmdbWrapper();
+    operator bool() const { return NoError; }
 
     xOptional<xIsoCountryName> GetCountry(const xNetAddress & Address) const;
 
 private:
-    bool   Inited = false;
-    MMDB_s MMDB   = {};
+    bool   NoError = false;
+    MMDB_s MMDB    = {};
 };
