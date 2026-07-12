@@ -15,7 +15,7 @@ xMmdbWrapper::~xMmdbWrapper() {
 }
 
 xOptional<xIsoCountryName> xMmdbWrapper::GetCountry(const xNetAddress & Address) const {
-    sockaddr_in Sin;
+    sockaddr_storage Sin;
     Address.Dump(&Sin);
 
     int  mmdb_error;
