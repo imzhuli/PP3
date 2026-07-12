@@ -17,6 +17,7 @@ link_directories(
 )
 set(shared_lib_dependency_private pp_common xel::xel)
 
+
 ################### protocol
 
 aux_source_directory(ppp/pp_protocol                      PPP_SRC)
@@ -32,7 +33,6 @@ aux_source_directory(ppp/lib_util                         PPP_SRC)
 
 add_library(ppp  ${PPP_SRC})
 target_link_libraries(ppp PUBLIC RdKafka::rdkafka++ ${shared_lib_dependency_private})
-
 
 ################### apps
 set(PPP_HEADER_DIR ${PROJECT_SOURCE_DIR}/ppp)

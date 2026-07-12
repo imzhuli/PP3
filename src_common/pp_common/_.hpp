@@ -48,7 +48,6 @@ using xel::PacketHeaderSize;
 // type-defs
 using xel::eLogLevel;
 using xel::xAbstract;
-using xel::xAutoHolder;
 using xel::xBaseLogger;
 using xel::xBinaryMessage;
 using xel::xCommandLine;
