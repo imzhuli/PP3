@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pp_common/_common.hpp>
+#include <pp_common/_.hpp>
 #include <pp_common/device.hpp>
 #include <pp_common/future.hpp>
 
@@ -27,4 +27,25 @@ struct xRelayServiceAbstract
     virtual void KeepUdpChannelAlive(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                                                                                = 0;
     virtual void PostData(uint64_t RelayServerId, uint64_t UdpChannelId, const xel::xNetAddress & TargetAddress, const void * Payload, size_t PayloadSize)                                                         = 0;  // udp channel
     virtual void DestroyUdpChannel(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                                                                                  = 0;
+};
+
+enum struct eRelayServerType : xServerGroup {
+    UNSPECIFIED = 0,
+    DEVICE      = 1,
+    STATIC      = 2,
+    THIRD       = 3,
+    RELAY_TYPE_COUNT,
+};
+
+struct xAbstractRelayServerInfo {
+    uint64_t    RelayServerId;
+    xNetAddress ExportDeviceSideAddress;
+    xNetAddress ExportProxySideAddrfess;
+};
+
+struct xAbstractDeviceInfo {
+    uint64_t    RelayServerId;
+    uint64_t    DeviceId;
+    xNetAddress DeviceAddress4;
+    xNetAddress DeviceAddress6;
 };

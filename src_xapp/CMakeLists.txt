@@ -47,6 +47,7 @@ endfunction()
 set(SUB_APPS)
 set(SUB_DIRS ${SUB_DIRS}
 	s_address_challenge
+	s_relay_dispatcher_master
 	s_small_server_list
 	s_target_collector
 	)
