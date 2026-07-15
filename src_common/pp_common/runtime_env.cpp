@@ -5,11 +5,11 @@
 
 std::string ToString(const xRuntimeEnv & Env) {
     auto OS = std::ostringstream();
-    OS << "Home: " << Env.HomeDir << endl;
-    OS << "Bin: " << Env.BinDir << endl;
-    OS << "Conf: " << Env.ConfigDir << endl;
-    OS << "Data: " << Env.DataDir << endl;
-    OS << "Cache: " << Env.CacheDir << endl;
+    OS << "HOME_DIR:   " << Env.HomeDir << endl;
+    OS << "BIN_DIR:    " << Env.BinDir << endl;
+    OS << "CONFIG_DIR: " << Env.ConfigDir << endl;
+    OS << "DATA_DIR:   " << Env.DataDir << endl;
+    OS << "CACHE_DIR:  " << Env.CacheDir << endl;
 
     OS << "DefaultConfigFilePath: " << Env.DefaultConfigFilePath << endl;
     return OS.str();
@@ -46,7 +46,7 @@ xRuntimeEnv xRuntimeEnv::FromCommandLine(int CmdArgc, char ** CmdArgv) {
     } else {
         Env.HomeDir   = std::filesystem::weakly_canonical(*HomeOpt);
         Env.BinDir    = Env.HomeDir / "bin";
-        Env.ConfigDir = Env.HomeDir / "conf";
+        Env.ConfigDir = Env.HomeDir / "config";
         Env.DataDir   = Env.HomeDir / "data";
         Env.CacheDir  = Env.HomeDir / "cache";
     }
@@ -66,29 +66,29 @@ xRuntimeEnv xRuntimeEnv::FromCommandLine(int CmdArgc, char ** CmdArgv) {
     return Env;
 }
 
-static inline bool IsRelativePath(const std::filesystem::path & Path) {
+static inline bool IsLocalPath(const std::filesystem::path & Path) {
     auto ParentPath = Path.parent_path();
     return ParentPath.empty();
 }
 
 std::filesystem::path xRuntimeEnv::GetBinaryPath(const std::filesystem::path & Filename) const {
     RuntimeAssert(!Filename.empty(), "filename should not be empty");
-    return IsRelativePath(Filename) ? (BinDir / Filename) : Filename;
+    return IsLocalPath(Filename) ? (BinDir / Filename) : Filename;
 }
 
 std::filesystem::path xRuntimeEnv::GetConfigPath(const std::filesystem::path & Filename) const {
     RuntimeAssert(!Filename.empty(), "filename should not be empty");
-    return IsRelativePath(Filename) ? (ConfigDir / Filename) : Filename;
+    return IsLocalPath(Filename) ? (ConfigDir / Filename) : Filename;
 }
 
 std::filesystem::path xRuntimeEnv::GetDataPath(const std::filesystem::path & Filename) const {
     RuntimeAssert(!Filename.empty(), "filename should not be empty");
-    return IsRelativePath(Filename) ? (DataDir / Filename) : Filename;
+    return IsLocalPath(Filename) ? (DataDir / Filename) : Filename;
 }
 
 std::filesystem::path xRuntimeEnv::GetCachePath(const std::filesystem::path & Filename) const {
     RuntimeAssert(!Filename.empty(), "filename should not be empty");
-    return IsRelativePath(Filename) ? (CacheDir / Filename) : Filename;
+    return IsLocalPath(Filename) ? (CacheDir / Filename) : Filename;
 }
 
 /////
