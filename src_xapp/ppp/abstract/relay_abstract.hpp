@@ -3,6 +3,7 @@
 #include <pp_common/_.hpp>
 #include <pp_common/device.hpp>
 #include <pp_common/future.hpp>
+#include <pp_common/relay.hpp>
 
 struct xRelayAbstractConnection;
 struct xRelayAbstractUdpChannel;
@@ -29,13 +30,10 @@ struct xRelayServiceAbstract
     virtual void DestroyUdpChannel(uint64_t RelayServerId, uint64_t UdpChannelId)                                                                                                                                  = 0;
 };
 
-enum struct eRelayServerType : xServerGroup {
-    UNSPECIFIED = 0,
-    DEVICE      = 1,
-    STATIC      = 2,
-    THIRD       = 3,
-    RELAY_TYPE_COUNT,
-};
+/**
+ * @brief RelayServerInfo/Dispatcher section
+ *
+ */
 
 struct xAbstractRelayServerInfo {
     uint64_t    RelayServerId;
