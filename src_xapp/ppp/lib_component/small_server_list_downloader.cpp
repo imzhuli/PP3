@@ -11,6 +11,10 @@ static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 60'000;
 static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 5 * 60'000;
 #endif
 
+bool xSmallServerListDownloader::Init(const xNetAddress & ServerListServerAddress) {
+    return Init(ServerListServerAddress, ServerListServerAddress.Decay());
+}
+
 bool xSmallServerListDownloader::Init(const xNetAddress & ServerListServerAddress, const xNetAddress & LocalBindAddress) {
     std::random_device rd;
     RandomGeneratorHolder.CreateValue(rd());

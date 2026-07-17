@@ -34,7 +34,7 @@ int main(int argc, char ** argv) {
 
     auto DispatcherEntryServerIdClientOptions = xServerIdClientOptions{
         .ServerGroup   = ST_RELAY_DISPATCHER_MASTER,
-        .ExportAddress = RelayEntryBindAddress,
+        .ExportAddress = DispatcherEntryBindAddress,
     };
     X_RESOURCE_GUARD_ASSERTED(DispatcherEntryServerIdCleint, ServiceIoContext, DispatcherEntryServerIdClientOptions, SmallServerListServer, std::string{});
     DispatcherEntryServerIdCleint.OnServerIdUpdated = [](uint64_t NewId) { Logger->I("Update DispatcherEntryServerIdCleint: new Id=%" PRIu64 "", NewId); };

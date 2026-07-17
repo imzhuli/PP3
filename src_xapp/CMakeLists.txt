@@ -57,6 +57,10 @@ set(SUB_DIRS ${SUB_DIRS}
 	t_component
 	t_sign
 	)
+
+set(SUB_DIRS ${SUB_DIRS}
+	u_server_list_downloader
+	)
 foreach(item IN LISTS SUB_DIRS)
 	build_app(${item})
 	set(SUB_APPS ${SUB_APPS} ${item})
