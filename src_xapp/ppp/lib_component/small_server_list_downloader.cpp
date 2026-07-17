@@ -8,7 +8,7 @@
 #ifndef NDEBUG
 static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 60'000;
 #else
-static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 5 * 60'000;
+static constexpr const uint64_t UPDATE_SERVER_LIST_TIMEOUT_MS = 15 * 60'000;
 #endif
 
 bool xSmallServerListDownloader::Init(const xNetAddress & ServerListServerAddress) {
