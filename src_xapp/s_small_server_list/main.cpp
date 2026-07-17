@@ -136,17 +136,29 @@ int main(int argc, char ** argv) {
             EnableServerGroup(ST_SERVER_LIST);
             EnableServerGroup(ST_TARGET_COLLECTOR);
             EnableServerGroup(ST_AUDIT_COLLECTOR);
+            EnableServerGroup(ST_RELAY_REGISTER);
+            EnableServerGroup(ST_RELAY_DISPATCHER_MASTER);
+            EnableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
             ServerIdService.EnableServerGroup(ST_SERVER_LIST);
             ServerIdService.EnableServerGroup(ST_TARGET_COLLECTOR);
             ServerIdService.EnableServerGroup(ST_AUDIT_COLLECTOR);
+            ServerIdService.EnableServerGroup(ST_RELAY_REGISTER);
+            ServerIdService.EnableServerGroup(ST_RELAY_DISPATCHER_MASTER);
+            ServerIdService.EnableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
         },
         [] {
             DisableServerGroup(ST_SERVER_LIST);
             DisableServerGroup(ST_TARGET_COLLECTOR);
             DisableServerGroup(ST_AUDIT_COLLECTOR);
+            DisableServerGroup(ST_RELAY_REGISTER);
+            DisableServerGroup(ST_RELAY_DISPATCHER_MASTER);
+            DisableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
             ServerIdService.DisableServerGroup(ST_SERVER_LIST);
             ServerIdService.DisableServerGroup(ST_TARGET_COLLECTOR);
             ServerIdService.DisableServerGroup(ST_AUDIT_COLLECTOR);
+            ServerIdService.DisableServerGroup(ST_RELAY_REGISTER);
+            ServerIdService.DisableServerGroup(ST_RELAY_DISPATCHER_MASTER);
+            ServerIdService.DisableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
         }
     );
     ServerIdService.OnNewServerId    = OnNewServerId;

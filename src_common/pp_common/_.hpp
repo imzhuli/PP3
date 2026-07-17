@@ -137,14 +137,18 @@ using std::function;
 // min_defs:
 using xVersion = uint32_t;
 
-constexpr const xServerGroup ST_SERVER_LIST            = 0x00;
-constexpr const xServerGroup ST_TARGET_COLLECTOR       = 0x01;
-constexpr const xServerGroup ST_AUDIT_COLLECTOR        = 0x02;
-constexpr const xServerGroup ST_RELAY_INFO_DISPATCHER  = 0x03;
+constexpr const xServerGroup ST_SERVER_LIST             = 0x00;
+constexpr const xServerGroup ST_TARGET_COLLECTOR        = 0x01;
+constexpr const xServerGroup ST_AUDIT_COLLECTOR         = 0x02;
+constexpr const xServerGroup ST_RELAY_REGISTER          = 0x03;
+constexpr const xServerGroup ST_RELAY_DISPATCHER_MASTER = 0x04;
+constexpr const xServerGroup ST_RELAY_DISPATCHER_SLAVE  = 0x05;
+/*
 constexpr const xServerGroup ST_DEVICE_INFO_DISPATCHER = 0x04;
 constexpr const xServerGroup ST_DEVICE_LOCATOR         = 0x05;
 constexpr const xServerGroup ST_AUTH_SERVER            = 0x06;
 constexpr const xServerGroup ST_LAST_DEVICE_USAGE      = 0x07;
+*/
 
 struct xServerInfo {
     xServerId   ServerId = {};

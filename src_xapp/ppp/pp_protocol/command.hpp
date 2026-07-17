@@ -16,18 +16,18 @@ static constexpr const xPacketCommandId Cmd_BackendAuditTerminalInfoResp = Cmd_B
 static constexpr const xPacketCommandId Cmd_BackendTargetReport          = Cmd_BackendBase + 0x301;  //
 static constexpr const xPacketCommandId Cmd_BackendBlockAccountReport    = Cmd_BackendBase + 0x302;  //
 static constexpr const xPacketCommandId Cmd_BackendAuditReport           = Cmd_BackendBase + 0x303;  //
-
-static constexpr const xPacketCommandId Cmd_AuditUsageByAuthId          = Cmd_BackendBase + 0x03;  //
-static constexpr const xPacketCommandId Cmd_AuditUsageByAuthIdResp      = Cmd_BackendBase + 0x04;  // 一般不处理返回
-static constexpr const xPacketCommandId Cmd_AuditTerminalInfo2          = Cmd_BackendBase + 0x05;  // 2025-03-09 新增, 无返回
-static constexpr const xPacketCommandId Cmd_DeviceRelayServerInfo2      = Cmd_BackendBase + 0x06;  // 2025-03-09 新增, 无返回
-static constexpr const xPacketCommandId Cmd_DeviceRelayServerInfoSingle = Cmd_BackendBase + 0x07;  // 2025-05-28 新增, 无返回
-static constexpr const xPacketCommandId Cmd_AuditThirdAccountUsage      = Cmd_BackendBase + 0x08;  // 2025-05-28 新增, 无返回
-
-static constexpr const xPacketCommandId Cmd_BackendChallenge          = Cmd_BackendBase + 0x101;
-static constexpr const xPacketCommandId Cmd_BackendChallengeResp      = Cmd_BackendBase + 0x102;
-static constexpr const xPacketCommandId Cmd_BackendAuthByUserPass     = Cmd_BackendBase + 0x201;
-static constexpr const xPacketCommandId Cmd_BackendAuthByUserPassResp = Cmd_BackendBase + 0x202;
+//
+static constexpr const xPacketCommandId Cmd_AuditUsageByAuthId           = Cmd_BackendBase + 0x03;  //
+static constexpr const xPacketCommandId Cmd_AuditUsageByAuthIdResp       = Cmd_BackendBase + 0x04;  // 一般不处理返回
+static constexpr const xPacketCommandId Cmd_AuditTerminalInfo2           = Cmd_BackendBase + 0x05;  // 2025-03-09 新增, 无返回
+static constexpr const xPacketCommandId Cmd_DeviceRelayServerInfo2       = Cmd_BackendBase + 0x06;  // 2025-03-09 新增, 无返回
+static constexpr const xPacketCommandId Cmd_DeviceRelayServerInfoSingle  = Cmd_BackendBase + 0x07;  // 2025-05-28 新增, 无返回
+static constexpr const xPacketCommandId Cmd_AuditThirdAccountUsage       = Cmd_BackendBase + 0x08;  // 2025-05-28 新增, 无返回
+//
+static constexpr const xPacketCommandId Cmd_BackendChallenge             = Cmd_BackendBase + 0x101;
+static constexpr const xPacketCommandId Cmd_BackendChallengeResp         = Cmd_BackendBase + 0x102;
+static constexpr const xPacketCommandId Cmd_BackendAuthByUserPass        = Cmd_BackendBase + 0x201;
+static constexpr const xPacketCommandId Cmd_BackendAuthByUserPassResp    = Cmd_BackendBase + 0x202;
 
 // server id & server list:
 static constexpr const xPacketCommandId Cmd_ServerManagementBase        = 0x01'000;
@@ -38,11 +38,10 @@ static constexpr const xPacketCommandId Cmd_AuditBase                   = 0x02'0
 static constexpr const xPacketCommandId Cmd_TargetReport                = Cmd_AuditBase + 0x01;
 static constexpr const xPacketCommandId Cmd_BlockAccountReport          = Cmd_AuditBase + 0x02;
 static constexpr const xPacketCommandId Cmd_AuditReport                 = Cmd_AuditBase + 0x03;
-
 //
-static constexpr const xPacketCommandId Cmd_RelayServerManagementBase = 0x02'000;
-static constexpr const xPacketCommandId Cmd_AcquireRelayServerId      = Cmd_RelayServerManagementBase + 0x01;
-static constexpr const xPacketCommandId Cmd_AcquireRelayServerIdResp  = Cmd_RelayServerManagementBase + 0x02;
+static constexpr const xPacketCommandId Cmd_RelayBase                   = 0x03'000;
+static constexpr const xPacketCommandId Cmd_RelayInfoRegister           = Cmd_RelayBase + 0x01;
+static constexpr const xPacketCommandId Cmd_RelayInfoRegisterResp       = Cmd_RelayBase + 0x02;
 
 // server management:
 static constexpr const xPacketCommandId Cmd_AcquireServerId         = Cmd_ServerManagementBase + 0x101;
@@ -51,11 +50,6 @@ static constexpr const xPacketCommandId Cmd_DownloadServiceList     = Cmd_Server
 static constexpr const xPacketCommandId Cmd_DownloadServiceListResp = Cmd_ServerManagementBase + 0x106;
 
 ///////////////////////// PP2 server list
-
-static constexpr const xPacketCommandId Cmd_RelayInfoRegister         = Cmd_ServerManagementBase + 0x401;
-static constexpr const xPacketCommandId Cmd_RegisterRelayInfoObserver = Cmd_ServerManagementBase + 0x402;
-static constexpr const xPacketCommandId Cmd_BroadcastRelayInfo        = Cmd_ServerManagementBase + 0x403;
-static constexpr const xPacketCommandId Cmd_BroadcastRelayOffline     = Cmd_ServerManagementBase + 0x404;
 
 static constexpr const xPacketCommandId Cmd_AuditAccountUsage = Cmd_ServerManagementBase + 0x501;
 static constexpr const xPacketCommandId Cmd_AuditTarget       = Cmd_ServerManagementBase + 0x502;
