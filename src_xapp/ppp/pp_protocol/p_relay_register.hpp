@@ -30,19 +30,22 @@ struct xPP_RelayRegisterResp final : xBinaryMessage {
 
 struct xPP_RelayInfoBroadcast final : xBinaryMessage {
     void SerializeMembers() override {
+        W(Type);
         W(ServerId);
         W(ExportDeviceSideAddress);
         W(ExportProxySideAddrfess);
     }
     void DeserializeMembers() override {
+        R(Type);
         R(ServerId);
         R(ExportDeviceSideAddress);
         R(ExportProxySideAddrfess);
     }
 
-    uint64_t    ServerId;
-    xNetAddress ExportDeviceSideAddress;
-    xNetAddress ExportProxySideAddrfess;
+    eRelayServerType Type;
+    uint64_t         ServerId;
+    xNetAddress      ExportDeviceSideAddress;
+    xNetAddress      ExportProxySideAddrfess;
 };
 
 struct xPP_RelayDispatcherSlaveRegister final : xBinaryMessage {

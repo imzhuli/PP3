@@ -27,6 +27,7 @@ xRelayDispatcherMaster::xRelayDispatcherMaster(const xel::xNetAddress & RelayEnt
         return;
     }
 
+    RelayEntry.SetMaxConnectionIdleTimeoutMS(3 * 60'000);
     RelayEntry.OnClientKeepAlive = Delegate(&xRelayDispatcherMaster::OnRelayEntryKeepAlive, this);
     RelayEntry.OnClientClean     = Delegate(&xRelayDispatcherMaster::OnRelayEntryClean, this);
     RelayEntry.OnClientPacket    = Delegate(&xRelayDispatcherMaster::OnRelayEntryPacket, this);
@@ -35,10 +36,14 @@ xRelayDispatcherMaster::xRelayDispatcherMaster(const xel::xNetAddress & RelayEnt
     DispatcherEntry.OnClientClean     = Delegate(&xRelayDispatcherMaster::OnDispatcherEntryClean, this);
     DispatcherEntry.OnClientPacket    = Delegate(&xRelayDispatcherMaster::OnDispatcherEntryPacket, this);
 
+    std::random_device rd;
+    RandomGeneratorHolder.CreateValue(rd());
+
     SetRaiiReady();
 }
 
 xRelayDispatcherMaster::~xRelayDispatcherMaster() {
+    RandomGeneratorHolder.Destroy();
     DispatcherEntry.Clean();
     RelayEntry.Clean();
     DispatcherEntryContextPool.Clean();
@@ -58,7 +63,7 @@ void xRelayDispatcherMaster::OnRelayEntryKeepAlive(const xTcpServiceClientConnec
         Handle.Kill();
         return;
     }
-    // TODO: broadcast heartbeat.
+    DispatchRelayHeartbeat(*Context);
 }
 
 void xRelayDispatcherMaster::OnRelayEntryClean(const xTcpServiceClientConnectionHandle & Handle) {
@@ -67,6 +72,7 @@ void xRelayDispatcherMaster::OnRelayEntryClean(const xTcpServiceClientConnection
         return;
     }
     assert(Context->ServerId);
+    DEBUG_LOG("Release relay, serverId=%" PRIx64 "", Context->ServerId);
     RelayEntryContextPool.Release(Context->ServerId);
 }
 
@@ -96,10 +102,12 @@ bool xRelayDispatcherMaster::OnRelayEntryPacket(const xTcpServiceClientConnectio
         Handle->UserContext.P      = &Context;
         DEBUG_LOG("new Relay connection, ServerId=%" PRIx64 ", Type=%u DeviceEntry=%s, ProxyEntry=%s",  //
                   Context.ServerId, (unsigned)Context.RelayServerType, Context.DeviceEntryAddress.ToString().c_str(), Context.ProxyEntryAddress.ToString().c_str());
+        DispatchRelayHeartbeat(Context);
     }
     auto Resp     = xPP_RelayRegisterResp();
     Resp.ServerId = NewContextId;
     Handle.PostMessage(Cmd_RelayInfoRegisterResp, 0, Resp);
+
     return true;
 }
 
@@ -151,8 +159,10 @@ bool xRelayDispatcherMaster::OnDispatcherEntryPacket(const xTcpServiceClientConn
 
     auto NewContextId = DispatcherEntryContextPool.Acquire();
     if (NewContextId) {
-        auto & Context    = DispatcherEntryContextPool[NewContextId];
-        Context.ContextId = NewContextId;
+        auto & Context           = DispatcherEntryContextPool[NewContextId];
+        Context.ContextId        = NewContextId;
+        Context.ConnectionHandle = Handle;
+
         DispatcherEntryList.AddTail(Context);
         Handle->UserContext.P = &Context;
         DEBUG_LOG("AcceptDispatcherSlave: %" PRIx64 "", NewContextId);
@@ -162,4 +172,20 @@ bool xRelayDispatcherMaster::OnDispatcherEntryPacket(const xTcpServiceClientConn
     Handle.PostMessage(Cmd_RelayDispatcherSlaveRegisterResp, 0, Resp);
 
     return true;
+}
+
+void xRelayDispatcherMaster::DispatchRelayHeartbeat(xRelayEntryContext & RelayContext) {
+    if (!RelayContext.HeartbeatDataSize) {  // build heartbeat packet buffer
+        auto RHB                       = xPP_RelayInfoBroadcast();
+        RHB.Type                       = RelayContext.RelayServerType;
+        RHB.ServerId                   = RelayContext.ServerId;
+        RHB.ExportDeviceSideAddress    = RelayContext.DeviceEntryAddress;
+        RHB.ExportProxySideAddrfess    = RelayContext.ProxyEntryAddress;
+        RelayContext.HeartbeatDataSize = WriteMessage(RelayContext.HeartbeatBuffer, Cmd_RelayHeartbeatBroadcast, RHB);
+
+        DEBUG_LOG("Build RelayHeartbeat buffer: result_size=%zi", RelayContext.HeartbeatDataSize);
+    }
+    DispatcherEntryList.ForEach([&](const xDispatcherEntryContext & DEC) {
+        DEC.ConnectionHandle.PostData(RelayContext.HeartbeatBuffer, RelayContext.HeartbeatDataSize);
+    });
 }

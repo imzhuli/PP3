@@ -44,6 +44,7 @@ static constexpr const xPacketCommandId Cmd_RelayInfoRegister                = C
 static constexpr const xPacketCommandId Cmd_RelayInfoRegisterResp            = Cmd_RelayBase + 0x02;
 static constexpr const xPacketCommandId Cmd_RelayDispatcherSlaveRegister     = Cmd_RelayBase + 0x03;
 static constexpr const xPacketCommandId Cmd_RelayDispatcherSlaveRegisterResp = Cmd_RelayBase + 0x04;
+static constexpr const xPacketCommandId Cmd_RelayHeartbeatBroadcast          = Cmd_RelayBase + 0x05;
 
 ///////////////////////// PP2 server list
 

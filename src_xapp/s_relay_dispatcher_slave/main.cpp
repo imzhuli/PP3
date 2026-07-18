@@ -29,8 +29,12 @@ int main(int argc, char ** argv) {
 
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_DISPATCHER_MASTER);
     SmallServerListDownloader.OnServerListUpdated = [](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {
+        if (!ServerListSize) {
+            Logger->I("No ST_RELAY_DISPATCHER_MASTER found !!!");
+            return;
+        }
         if (ServerListSize != 1) {
-            Logger->E("Invalid ST_RELAY_REGISTER count, it should always be ONE !!!");
+            Logger->E("Invalid ST_RELAY_DISPATCHER_MASTER count, it should always be ONE !!!");
             return;
         }
         auto & MasterAddress = ServerList[0].Address;
@@ -47,20 +51,23 @@ int main(int argc, char ** argv) {
         Master.PostMessage(Cmd_RelayDispatcherSlaveRegister, 0, Register);
     };
     Master.OnServerPacket = [](xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) -> bool {
-        if (CmdId != Cmd_RelayDispatcherSlaveRegisterResp) {
-            DEBUG_LOG("invalid command id");
-            return false;
+        if (CmdId == Cmd_RelayHeartbeatBroadcast) {
+            DEBUG_LOG("\n%s", HexShow(Payload, PayloadSize).c_str());
+            return true;
         }
-        auto Resp = xPP_RelayDispatcherSlaveRegisterResp();
-        if (!Resp.Deserialize(Payload, PayloadSize)) {
-            DEBUG_LOG("invlaid protocol");
-            return false;
+        if (CmdId == Cmd_RelayDispatcherSlaveRegisterResp) {
+            auto Resp = xPP_RelayDispatcherSlaveRegisterResp();
+            if (!Resp.Deserialize(Payload, PayloadSize)) {
+                DEBUG_LOG("invlaid protocol");
+                return false;
+            }
+            if (!Resp.Accepted) {
+                DEBUG_LOG("not accepted by master");
+                return false;
+            }
+            DEBUG_LOG("Accepted by master");
+            return true;
         }
-        if (!Resp.Accepted) {
-            DEBUG_LOG("not accepted by master");
-            return false;
-        }
-        DEBUG_LOG("Accepted by master");
         return true;
     };
 

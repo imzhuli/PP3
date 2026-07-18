@@ -35,6 +35,10 @@ int main(int argc, char ** argv) {
 
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_REGISTER);
     SmallServerListDownloader.OnServerListUpdated = [](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {
+        if (!ServerListSize) {
+            Logger->I("No ST_RELAY_REGISTER found !!!");
+            return;
+        }
         if (ServerListSize != 1) {
             Logger->E("Invalid ST_RELAY_REGISTER count, it should always be ONE !!!");
             return;
@@ -45,6 +49,7 @@ int main(int argc, char ** argv) {
         }
     };
 
+    RelayDispatcherMaster.SetRequestKeepAliveInterval(60'000);
     RelayDispatcherMaster.OnServerConnected = [] {
         auto Register                    = xPP_RelayRegister();
         Register.ExportDeviceSideAddress = DeviceEntryAddress;
