@@ -82,9 +82,10 @@ int main(int argc, char ** argv) {
     }
     Downloader.OnServerListUpdated = OnServerListUpdated;
 
+    auto EndTimer = xTimer();
     while (ServiceRunState) {
         ServiceUpdateOnce(Downloader);
-        if (IsAllDone()) {
+        if (IsAllDone() || EndTimer.TestAndTag(3s)) {
             ServiceRunState.Stop();
         }
     }
