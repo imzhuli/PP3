@@ -1,5 +1,6 @@
 #include "./rdm.hpp"
 
+#include <cmath>
 #include <pp_common/service_runtime.hpp>
 #include <pp_protocol/command.hpp>
 #include <pp_protocol/p_relay_register.hpp>
@@ -29,6 +30,10 @@ xRelayDispatcherMaster::xRelayDispatcherMaster(const xel::xNetAddress & RelayEnt
     RelayEntry.OnClientKeepAlive = Delegate(&xRelayDispatcherMaster::OnRelayEntryKeepAlive, this);
     RelayEntry.OnClientClean     = Delegate(&xRelayDispatcherMaster::OnRelayEntryClean, this);
     RelayEntry.OnClientPacket    = Delegate(&xRelayDispatcherMaster::OnRelayEntryPacket, this);
+
+    DispatcherEntry.OnClientKeepAlive = Delegate(&xRelayDispatcherMaster::OnDispatcherEntryKeepAlive, this);
+    DispatcherEntry.OnClientClean     = Delegate(&xRelayDispatcherMaster::OnDispatcherEntryClean, this);
+    DispatcherEntry.OnClientPacket    = Delegate(&xRelayDispatcherMaster::OnDispatcherEntryPacket, this);
 
     SetRaiiReady();
 }
@@ -104,9 +109,9 @@ void xRelayDispatcherMaster::OnDispatcherEntryKeepAlive(const xTcpServiceClientC
     auto Context = static_cast<xDispatcherEntryContext *>(Handle->UserContext.P);
     if (!Context) {
         DEBUG_LOG("invalid diaptcher connection");
+        Handle.Kill();
         return;
     }
-    Handle.Kill();
     return;
 }
 
@@ -116,6 +121,7 @@ void xRelayDispatcherMaster::OnDispatcherEntryClean(const xTcpServiceClientConne
         return;
     }
     assert(Context->ContextId);
+    DEBUG_LOG("ReleaseDispatcherSlave: %" PRIx64 "", Context->ContextId);
     DispatcherEntryContextPool.Release(Context->ContextId);
 }
 
@@ -126,5 +132,34 @@ bool xRelayDispatcherMaster::OnDispatcherEntryPacket(const xTcpServiceClientConn
         return false;
     }
 
-    return false;
+    if (CmdId != Cmd_RelayDispatcherSlaveRegister) {
+        DEBUG_LOG("invalid command id");
+        return false;
+    }
+
+    auto Register = xPP_RelayDispatcherSlaveRegister();
+    if (!Register.Deserialize(Payload, PayloadSize)) {
+        DEBUG_LOG("invalid protocol");
+        return false;
+    }
+
+    auto NowMS = xel::GetTimestampMS();
+    if (std::abs(SignedDiff(NowMS, Register.TimestampMS)) > 10 * 60'000) {
+        DEBUG_LOG("invalid timestamp");
+        return false;
+    }
+
+    auto NewContextId = DispatcherEntryContextPool.Acquire();
+    if (NewContextId) {
+        auto & Context    = DispatcherEntryContextPool[NewContextId];
+        Context.ContextId = NewContextId;
+        DispatcherEntryList.AddTail(Context);
+        Handle->UserContext.P = &Context;
+        DEBUG_LOG("AcceptDispatcherSlave: %" PRIx64 "", NewContextId);
+    }
+    auto Resp     = xPP_RelayDispatcherSlaveRegisterResp();
+    Resp.Accepted = NewContextId;
+    Handle.PostMessage(Cmd_RelayDispatcherSlaveRegisterResp, 0, Resp);
+
+    return true;
 }

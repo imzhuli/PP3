@@ -25,6 +25,10 @@ static void DumpLocalServerId(const std::string & LocalServerIdFilename, uint64_
     return;
 }
 
+bool xServerIdClient::Init(xIoContext * ICP, const xServerIdClientOptions & Options, const xNetAddress & ServerIdCenterAddress) {
+    return Init(ICP, Options, ServerIdCenterAddress, {});
+}
+
 bool xServerIdClient::Init(xIoContext * ICP, const xServerIdClientOptions & Options, const xNetAddress & ServerIdCenterAddress, const std::string & DumpFilename) {
     auto ProcessedOptions = Options;
     auto InitServerId     = uint64_t(0);

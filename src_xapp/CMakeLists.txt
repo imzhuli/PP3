@@ -50,6 +50,7 @@ set(SUB_DIRS ${SUB_DIRS}
 	s_address_challenge
 	s_relay_device
 	s_relay_dispatcher_master
+	s_relay_dispatcher_slave
 	s_small_server_list
 	s_target_collector
 	)

@@ -30,24 +30,20 @@ static constexpr const xPacketCommandId Cmd_BackendAuthByUserPass        = Cmd_B
 static constexpr const xPacketCommandId Cmd_BackendAuthByUserPassResp    = Cmd_BackendBase + 0x202;
 
 // server id & server list:
-static constexpr const xPacketCommandId Cmd_ServerManagementBase        = 0x01'000;
-static constexpr const xPacketCommandId Cmd_DownloadSmallServerList     = Cmd_ServerManagementBase + 0x01;
-static constexpr const xPacketCommandId Cmd_DownloadSmallServerListResp = Cmd_ServerManagementBase + 0x02;
+static constexpr const xPacketCommandId Cmd_ServerManagementBase             = 0x01'000;
+static constexpr const xPacketCommandId Cmd_DownloadSmallServerList          = Cmd_ServerManagementBase + 0x01;
+static constexpr const xPacketCommandId Cmd_DownloadSmallServerListResp      = Cmd_ServerManagementBase + 0x02;
 // proxy side report
-static constexpr const xPacketCommandId Cmd_AuditBase                   = 0x02'000;
-static constexpr const xPacketCommandId Cmd_TargetReport                = Cmd_AuditBase + 0x01;
-static constexpr const xPacketCommandId Cmd_BlockAccountReport          = Cmd_AuditBase + 0x02;
-static constexpr const xPacketCommandId Cmd_AuditReport                 = Cmd_AuditBase + 0x03;
+static constexpr const xPacketCommandId Cmd_AuditBase                        = 0x02'000;
+static constexpr const xPacketCommandId Cmd_TargetReport                     = Cmd_AuditBase + 0x01;
+static constexpr const xPacketCommandId Cmd_BlockAccountReport               = Cmd_AuditBase + 0x02;
+static constexpr const xPacketCommandId Cmd_AuditReport                      = Cmd_AuditBase + 0x03;
 //
-static constexpr const xPacketCommandId Cmd_RelayBase                   = 0x03'000;
-static constexpr const xPacketCommandId Cmd_RelayInfoRegister           = Cmd_RelayBase + 0x01;
-static constexpr const xPacketCommandId Cmd_RelayInfoRegisterResp       = Cmd_RelayBase + 0x02;
-
-// server management:
-static constexpr const xPacketCommandId Cmd_AcquireServerId         = Cmd_ServerManagementBase + 0x101;
-static constexpr const xPacketCommandId Cmd_AcquireServerIdResp     = Cmd_ServerManagementBase + 0x102;
-static constexpr const xPacketCommandId Cmd_DownloadServiceList     = Cmd_ServerManagementBase + 0x105;
-static constexpr const xPacketCommandId Cmd_DownloadServiceListResp = Cmd_ServerManagementBase + 0x106;
+static constexpr const xPacketCommandId Cmd_RelayBase                        = 0x03'000;
+static constexpr const xPacketCommandId Cmd_RelayInfoRegister                = Cmd_RelayBase + 0x01;
+static constexpr const xPacketCommandId Cmd_RelayInfoRegisterResp            = Cmd_RelayBase + 0x02;
+static constexpr const xPacketCommandId Cmd_RelayDispatcherSlaveRegister     = Cmd_RelayBase + 0x03;
+static constexpr const xPacketCommandId Cmd_RelayDispatcherSlaveRegisterResp = Cmd_RelayBase + 0x04;
 
 ///////////////////////// PP2 server list
 

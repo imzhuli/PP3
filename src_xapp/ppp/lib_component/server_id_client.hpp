@@ -6,6 +6,7 @@ using xel::service::xServerIdClientOptions;
 
 class xServerIdClient final {
 public:
+    bool Init(xIoContext * ICP, const xServerIdClientOptions & Options, const xNetAddress & ServerIdCenterAddress);
     bool Init(xIoContext * ICP, const xServerIdClientOptions & Options, const xNetAddress & ServerIdCenterAddress, const std::string & DumpFilename);
     void Clean();
 

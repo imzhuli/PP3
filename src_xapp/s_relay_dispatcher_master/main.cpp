@@ -27,14 +27,14 @@ int main(int argc, char ** argv) {
         .ServerGroup   = ST_RELAY_REGISTER,
         .ExportAddress = RelayEntryBindAddress,
     };
-    X_RESOURCE_GUARD_ASSERTED(RelayEntryServerIdCleint, ServiceIoContext, RelayEntryServerIdClientOptions, SmallServerListServer, std::string{});
+    X_RESOURCE_GUARD_ASSERTED(RelayEntryServerIdCleint, ServiceIoContext, RelayEntryServerIdClientOptions, SmallServerListServer);
     RelayEntryServerIdCleint.OnServerIdUpdated = [](uint64_t NewId) { Logger->I("Update RelayEntryServerIdCleint: new Id=%" PRIx64 "", NewId); };
 
     auto DispatcherEntryServerIdClientOptions = xServerIdClientOptions{
         .ServerGroup   = ST_RELAY_DISPATCHER_MASTER,
         .ExportAddress = DispatcherEntryBindAddress,
     };
-    X_RESOURCE_GUARD_ASSERTED(DispatcherEntryServerIdCleint, ServiceIoContext, DispatcherEntryServerIdClientOptions, SmallServerListServer, std::string{});
+    X_RESOURCE_GUARD_ASSERTED(DispatcherEntryServerIdCleint, ServiceIoContext, DispatcherEntryServerIdClientOptions, SmallServerListServer);
     DispatcherEntryServerIdCleint.OnServerIdUpdated = [](uint64_t NewId) { Logger->I("Update DispatcherEntryServerIdCleint: new Id=%" PRIx64 "", NewId); };
 
     while (ServiceRunState) {

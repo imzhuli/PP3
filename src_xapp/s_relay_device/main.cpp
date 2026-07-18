@@ -36,10 +36,13 @@ int main(int argc, char ** argv) {
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_REGISTER);
     SmallServerListDownloader.OnServerListUpdated = [](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {
         if (ServerListSize != 1) {
-            AuditLogger->E("Invalid ST_RELAY_REGISTER count, it should always be ONE !!!");
+            Logger->E("Invalid ST_RELAY_REGISTER count, it should always be ONE !!!");
             return;
         }
-        RelayDispatcherMaster.UpdateTarget(ServerList[0].Address);
+        auto & NewAddress = ServerList[0].Address;
+        if (RelayDispatcherMaster.GetTarget() != NewAddress) {
+            RelayDispatcherMaster.UpdateTarget(NewAddress);
+        }
     };
 
     RelayDispatcherMaster.OnServerConnected = [] {
@@ -57,7 +60,7 @@ int main(int argc, char ** argv) {
             Logger->E("invalid protocol");
             return false;
         }
-        AuditLogger->I("Update server id: %" PRIx64 "", Result.ServerId);
+        Logger->I("Update server id: %" PRIx64 "", Result.ServerId);
         if (!Result.ServerId) {
             Logger->E("new server id refused");
             return false;
