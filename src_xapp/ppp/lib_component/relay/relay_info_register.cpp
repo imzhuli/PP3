@@ -5,7 +5,7 @@
 
 #include <pp_common/service_runtime.hpp>
 
-xRelayInfoRegister::xRelayInfoRegister(const xNetAddress & MasterDispatcherAddress, const xRelayInfo & RelayInfo) {
+xRelayInfoRegister::xRelayInfoRegister(const xNetAddress & MasterDispatcherAddress, const xRelayServerInfo & RelayInfo) {
     if (!DispatcherClient.Init(ServiceIoContext, MasterDispatcherAddress)) {
         return;
     }

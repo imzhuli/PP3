@@ -35,15 +35,8 @@ struct xRelayServiceAbstract
  *
  */
 
-struct xAbstractRelayServerInfo {
-    uint64_t    RelayServerId;
-    xNetAddress ExportDeviceSideAddress;
-    xNetAddress ExportProxySideAddrfess;
-};
-
-struct xAbstractDeviceInfo {
-    uint64_t    RelayServerId;
-    uint64_t    DeviceId;
-    xNetAddress DeviceAddress4;
-    xNetAddress DeviceAddress6;
+struct xRelayServerInfo {
+    eRelayServerType RelayServerType;
+    xNetAddress      ExportDeviceSideAddress;
+    xNetAddress      ExportProxySideAddrfess;
 };
