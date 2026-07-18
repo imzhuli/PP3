@@ -1,5 +1,4 @@
-#include "../ppp/lib_component/address_challenge/address_challenge.hpp"
-
+#include <lib_component/address_challenge/address_challenge.hpp>
 #include <pp_common/service_runtime.hpp>
 
 int main(int argc, char ** argv) {

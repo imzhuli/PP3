@@ -1,10 +1,6 @@
 #include <pp_common/service_runtime.hpp>
 #include <pp_protocol/command.hpp>
 #include <pp_protocol/p_small_server_list.hpp>
-#include <xel/service/server_list/server_id_service.hpp>
-
-using xel::service::ExtractServerIdInternal;
-using xel::service::xServerIdService;
 
 static auto BindAddress     = xNetAddress();
 static auto ServerIdService = xServerIdService();

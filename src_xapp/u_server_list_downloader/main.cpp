@@ -1,6 +1,5 @@
-#include "../ppp/lib_component/small_server_list_downloader.hpp"
-
 #include <algorithm>
+#include <lib_component/small_server_list_downloader.hpp>
 #include <map>
 #include <pp_common/service_runtime.hpp>
 

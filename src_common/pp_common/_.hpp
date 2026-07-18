@@ -30,6 +30,7 @@
 #include <xel/server_arch/tcp_service.hpp>
 #include <xel/server_arch/udp_service.hpp>
 #include <xel/service/base/def.hpp>
+#include <xel/service/server_list/server_id_service.hpp>
 
 //
 #include <cinttypes>
@@ -94,8 +95,10 @@ using xel::xUdpChannel;
 using xel::xUdpService;
 using xel::xUdpServiceChannelHandle;
 
+using xel::service::ExtractServerIdInternal;
 using xel::service::xServerGroup;
 using xel::service::xServerId;
+using xel::service::xServerIdService;
 
 // functions
 using xel::Base64Decode;

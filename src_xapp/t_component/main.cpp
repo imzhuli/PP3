@@ -1,17 +1,19 @@
-#include <lib_component/local_device/local_device_manager.hpp>
+#include <pp_protocol/p_relay_register.hpp>
 
 int main(int, char **) {
 
-    auto M = xLocalDeviceManager();
+    auto R        = xPP_RelayDispatcherSlaveRegister();
+    R.TimestampMS = xel::GetTimestampMS();
 
-    auto AL = std::vector<xLocalDeviceBinding>{
-        { xNetAddress::Parse("127.0.0.1"), xNetAddress::Parse("7.7.7.7") },
-        { xNetAddress::Parse("127.0.0.1"), xNetAddress::Parse("8.8.8.8") },
-    };
+    ubyte Buffer[xel::MaxPacketSize];
+    auto  RSize = R.Serialize(Buffer, sizeof(Buffer));
+    cout << HexShow(Buffer, RSize) << endl;
 
-    X_RESOURCE_GUARD_ASSERTED(M, AL);
-
-    cout << M.FindDeviceByExportAddress(xNetAddress::Parse("8.8.8.8")) << endl;
-
+    auto RR = xPP_RelayDispatcherSlaveRegister();
+    if (!RR.Deserialize(Buffer, RSize)) {
+        cerr << "failed to deserialize data" << endl;
+        return -1;
+    }
+    cout << RR.TimestampMS;
     return 0;
 }
