@@ -8,7 +8,7 @@
 xRelayDispatcherMaster::xRelayDispatcherMaster(const xel::xNetAddress & RelayEntrydAddress, const xNetAddress & DispatcherEntryAddress) {
     auto ICP = ServiceIoContext;
 
-    if (!RelayEntryContextPool.Init(20'0000)) {
+    if (!RelayEntryContextPool.Init(MAX_RELAY_SERVER_LIST_SIZE)) {
         return;
     }
     if (!DispatcherEntryContextPool.Init(MAX_SMALL_SERVER_LIST_SIZE)) {
@@ -114,7 +114,7 @@ bool xRelayDispatcherMaster::OnRelayEntryPacket(const xTcpServiceClientConnectio
 ///////
 
 void xRelayDispatcherMaster::OnDispatcherEntryKeepAlive(const xTcpServiceClientConnectionHandle & Handle) {
-    auto Context = static_cast<xDispatcherEntryContext *>(Handle->UserContext.P);
+    auto Context = static_cast<xDispatcherSlaveContext *>(Handle->UserContext.P);
     if (!Context) {
         DEBUG_LOG("invalid diaptcher connection");
         Handle.Kill();
@@ -124,7 +124,7 @@ void xRelayDispatcherMaster::OnDispatcherEntryKeepAlive(const xTcpServiceClientC
 }
 
 void xRelayDispatcherMaster::OnDispatcherEntryClean(const xTcpServiceClientConnectionHandle & Handle) {
-    auto Context = static_cast<xDispatcherEntryContext *>(Handle->UserContext.P);
+    auto Context = static_cast<xDispatcherSlaveContext *>(Handle->UserContext.P);
     if (!Context) {
         return;
     }
@@ -134,7 +134,7 @@ void xRelayDispatcherMaster::OnDispatcherEntryClean(const xTcpServiceClientConne
 }
 
 bool xRelayDispatcherMaster::OnDispatcherEntryPacket(const xTcpServiceClientConnectionHandle & Handle, xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) {
-    auto OldContext = static_cast<xDispatcherEntryContext *>(Handle->UserContext.P);
+    auto OldContext = static_cast<xDispatcherSlaveContext *>(Handle->UserContext.P);
     if (OldContext) {
         DEBUG_LOG("duplicated request");
         return false;

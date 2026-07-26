@@ -32,20 +32,20 @@ int main(int argc, char ** argv) {
     }
     auto AddressChallengeService = xAddressChallengeService(Steal(Addresses));
 
-    auto RelayInfoObserver = xRelayInfoObserver();
-    X_RUNTIME_ASSERT(xRaii::IsReady(RelayInfoObserver));
+    auto RelayInfoObserver = std::make_unique<xRelayInfoObserver>();
+    X_RUNTIME_ASSERT(xRaii::IsReady(*RelayInfoObserver));
 
     X_RESOURCE_GUARD_ASSERTED(SmallServerListDownloader, ServerIdServerAddress);
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
 
     SmallServerListDownloader.OnServerListUpdated = [&](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {
         if (ServerGroup == ST_RELAY_DISPATCHER_SLAVE) {
-            RelayInfoObserver.UpdateServerList(ServerList, ServerListSize);
+            RelayInfoObserver->UpdateServerList(ServerList, ServerListSize);
         }
     };
 
     while (ServiceRunState) {
-        ServiceUpdateOnce(SmallServerListDownloader, RelayInfoObserver);
+        ServiceUpdateOnce(SmallServerListDownloader, *RelayInfoObserver);
     }
 
     return 0;

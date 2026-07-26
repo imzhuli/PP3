@@ -48,7 +48,7 @@ struct xPP_RelayInfoBroadcast final : xBinaryMessage {
     xNetAddress      ExportProxySideAddrfess;
 };
 
-struct xPP_RelayInfoDropped final : xBinaryMessage {
+struct xPP_RelayInfoLost final : xBinaryMessage {
     void SerializeMembers() override {
         W(ServerId);
     }

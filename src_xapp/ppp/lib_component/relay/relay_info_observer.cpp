@@ -12,8 +12,17 @@ bool xRelayInfoObserver::OnPacket(const xTcpClientPoolConnectionHandle & Handle,
             DEBUG_LOG("invalid protocol");
             return false;
         }
-        DEBUG_LOG("update relay server: %" PRIx64 ", DeviceSideAddress=%s, ProxySideAddress=%s", B.ServerId, B.ExportDeviceSideAddress.ToString().c_str(), B.ExportProxySideAddrfess.ToString().c_str());
+        DEBUG_LOG("update relay server: %" PRIx64 ", Type=%u DeviceSideAddress=%s, ProxySideAddress=%s", B.ServerId, (unsigned)B.Type, B.ExportDeviceSideAddress.ToString().c_str(), B.ExportProxySideAddrfess.ToString().c_str());
+        return true;
     }
-
+    if (CmdId == Cmd_RelayHeartbeatLost) {
+        auto B = xPP_RelayInfoLost();
+        if (!B.Deserialize(Payload, PayloadSize)) {
+            DEBUG_LOG("invalid protocol");
+            return false;
+        }
+        DEBUG_LOG("Lost relay server: %" PRIx64 "", B.ServerId);
+        return true;
+    }
     return true;
 }

@@ -19,11 +19,11 @@ private:
         size_t           HeartbeatDataSize = 0;
     };
 
-    struct xDispatcherEntryContext : xListNode {
+    struct xDispatcherSlaveContext : xListNode {
         uint64_t                          ContextId;
         xTcpServiceClientConnectionHandle ConnectionHandle;
     };
-    using xDispatcherEntryContextList = xList<xDispatcherEntryContext>;
+    using xDispatcherEntryContextList = xList<xDispatcherSlaveContext>;
 
 private:
     void OnRelayEntryKeepAlive(const xTcpServiceClientConnectionHandle &);
@@ -38,7 +38,7 @@ private:
 
 private:
     xIndexedStorage<xRelayEntryContext>      RelayEntryContextPool;
-    xIndexedStorage<xDispatcherEntryContext> DispatcherEntryContextPool;
+    xIndexedStorage<xDispatcherSlaveContext> DispatcherEntryContextPool;
     xDispatcherEntryContextList              DispatcherEntryList;
     xHolder<std::mt19937>                    RandomGeneratorHolder;
 

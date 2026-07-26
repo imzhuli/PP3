@@ -52,6 +52,7 @@ int main(int argc, char ** argv) {
     RelayDispatcherMaster.SetRequestKeepAliveInterval(60'000);
     RelayDispatcherMaster.OnServerConnected = [] {
         auto Register                    = xPP_RelayRegister();
+        Register.RelayServerType         = eRelayServerType::DEVICE;
         Register.ExportDeviceSideAddress = DeviceEntryAddress;
         Register.ExportProxySideAddrfess = ProxyEntryAddress;
         RelayDispatcherMaster.PostMessage(Cmd_RelayInfoRegister, 0, Register);
