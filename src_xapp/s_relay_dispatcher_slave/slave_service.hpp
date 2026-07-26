@@ -12,7 +12,7 @@ public:
     void Clean();
     void Tick(uint64_t NowMS);
 
-    void DispatchData(const void * Payload, size_t PayloadSize);
+    void DispatchData(xPacketCommandId CmdId, xPacketRequestId ReqId, const void * Payload, size_t PayloadSize);
 
 private:
     xTcpService                               TcpService;

@@ -28,8 +28,13 @@ void xRelayDispatcherSlaveService::Tick(uint64_t NowMS) {
     TcpService.Tick(NowMS);
 }
 
-void xRelayDispatcherSlaveService::DispatchData(const void * Payload, size_t PayloadSize) {
+void xRelayDispatcherSlaveService::DispatchData(xPacketCommandId CmdId, xPacketRequestId ReqId, const void * Payload, size_t PayloadSize) {
+    ubyte RebuiltPacket[MaxPacketSize];
+    auto  RSize = xel::BuildPacket(RebuiltPacket, CmdId, ReqId, Payload, PayloadSize);
+    assert(RSize);
+
+    DEBUG_LOG("DispatchData: \n%s", HexShow(RebuiltPacket, RSize).c_str());
     ClientList.ForEach([=](xRelayDispatcherSlaveClientContext & Context) {
-        Context.ClientHandel.PostData(Payload, PayloadSize);
+        Context.ClientHandel.PostData(RebuiltPacket, RSize);
     });
 }

@@ -6,12 +6,10 @@ public:
     xRelayInfoObserver();
     ~xRelayInfoObserver();
     void Tick(uint64_t NowMS);
-
-    void OnRelayDispatcherUpdated(const xServerInfo * ServerInfoList, size_t ServerInfoListSize);
+    void UpdateDispatcher(const xServerInfo * ServerInfoList, size_t ServerInfoListSize);
 
 private:
-    void OnRelayServerRemoved(uint64_t ServerId);
-    void OnRelayServerInfo(uint64_t ServerId, const xRelayServerInfo & RelayInfo);
+    bool OnPacket(const xTcpClientPoolConnectionHandle & Handle, xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize);
 
 private:
     struct xDispatcherLocalInfo {

@@ -185,7 +185,8 @@ void xRelayDispatcherMaster::DispatchRelayHeartbeat(xRelayEntryContext & RelayCo
 
         DEBUG_LOG("Build RelayHeartbeat buffer: result_size=%zi", RelayContext.HeartbeatDataSize);
     }
-    DispatcherEntryList.ForEach([&](const xDispatcherEntryContext & DEC) {
-        DEC.ConnectionHandle.PostData(RelayContext.HeartbeatBuffer, RelayContext.HeartbeatDataSize);
-    });
+    if (auto PContext = DispatcherEntryList.PopHead()) {
+        PContext->ConnectionHandle.PostData(RelayContext.HeartbeatBuffer, RelayContext.HeartbeatDataSize);
+        DispatcherEntryList.AddTail(*PContext);
+    }
 }

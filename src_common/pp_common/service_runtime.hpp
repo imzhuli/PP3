@@ -69,7 +69,7 @@ public:
     void SetRequestTimeoutMS(uint64_t TimeoutMS) { DefaultTimeoutMS = TimeoutMS > 500 ? TimeoutMS : 500; }
 
     // callbacks
-    using xOnTimeoutRequestCallback = std::function<void(const xServiceRequestContext *)>;
+    using xOnTimeoutRequestCallback                    = std::function<void(const xServiceRequestContext *)>;
     //
     xOnTimeoutRequestCallback OnTimeoutRequestCallback = Noop<>;
 
@@ -110,8 +110,8 @@ private:
 };
 
 #ifndef NDEBUG
-#define DEBUG_LOG(fmt, ...) Logger->D("[%s:%i:%s] " fmt, std::filesystem::path(__FILE__).filename().c_str(), __LINE__, __func__, ##__VA_ARGS__)
-#define DEBUG_ADT(fmt, ...) AuditLogger->D("[%s:%i:%s] " fmt, std::filesystem::path(__FILE__).filename().c_str(), __LINE__, __func__, ##__VA_ARGS__)
+#define DEBUG_LOG(fmt, ...) Logger->D("[%s:%i:%s] " fmt, std::filesystem::path(__FILE__).filename().c_str(), __LINE__, __func__ __VA_OPT__(, ) __VA_ARGS__)
+#define DEBUG_ADT(fmt, ...) AuditLogger->D("[%s:%i:%s] " fmt, std::filesystem::path(__FILE__).filename().c_str(), __LINE__, __func__ __VA_OPT__(, ) __VA_ARGS__)
 #else
 #define DEBUG_LOG(...)
 #define DEBUG_ADT(...)

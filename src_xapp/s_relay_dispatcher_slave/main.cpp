@@ -56,8 +56,7 @@ int main(int argc, char ** argv) {
     };
     Master.OnServerPacket = [](xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) -> bool {
         if (CmdId == Cmd_RelayHeartbeatBroadcast) {
-            DEBUG_LOG("\n%s", HexShow(Payload, PayloadSize).c_str());
-            SlaveService.DispatchData(Payload, PayloadSize);
+            SlaveService.DispatchData(CmdId, ReqId, Payload, PayloadSize);
             return true;
         }
         if (CmdId == Cmd_RelayDispatcherSlaveRegisterResp) {
