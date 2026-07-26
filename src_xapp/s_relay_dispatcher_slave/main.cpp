@@ -1,3 +1,5 @@
+#include "./slave_service.hpp"
+
 #include <lib_component/server_id_client.hpp>
 #include <lib_component/small_server_list_downloader.hpp>
 #include <pp_common/service_runtime.hpp>
@@ -9,6 +11,7 @@ static auto DispatcherBindAddress       = xNetAddress();
 static auto ExportDispatcherBindAddress = xNetAddress();
 
 static auto Master                    = xTcpClientWrapper();
+static auto SlaveService              = xRelayDispatcherSlaveService();
 static auto ServerIdCleint            = xServerIdClient();
 static auto SmallServerListDownloader = xSmallServerListDownloader();
 
@@ -20,6 +23,7 @@ int main(int argc, char ** argv) {
     CL.Require(ExportDispatcherBindAddress, "ExportDispatcherBindAddress");
 
     X_RESOURCE_GUARD_ASSERTED(Master, ServiceIoContext);
+    X_RESOURCE_GUARD_ASSERTED(SlaveService, ServiceIoContext, DispatcherBindAddress);
     auto ServerIdClientOptions = xServerIdClientOptions{
         .ServerGroup   = ST_RELAY_DISPATCHER_SLAVE,
         .ExportAddress = ExportDispatcherBindAddress,
@@ -53,6 +57,7 @@ int main(int argc, char ** argv) {
     Master.OnServerPacket = [](xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) -> bool {
         if (CmdId == Cmd_RelayHeartbeatBroadcast) {
             DEBUG_LOG("\n%s", HexShow(Payload, PayloadSize).c_str());
+            SlaveService.DispatchData(Payload, PayloadSize);
             return true;
         }
         if (CmdId == Cmd_RelayDispatcherSlaveRegisterResp) {
@@ -72,7 +77,7 @@ int main(int argc, char ** argv) {
     };
 
     while (ServiceRunState) {
-        ServiceUpdateOnce(Master, ServerIdCleint, SmallServerListDownloader);
+        ServiceUpdateOnce(Master, SlaveService, ServerIdCleint, SmallServerListDownloader);
     }
 
     return 0;

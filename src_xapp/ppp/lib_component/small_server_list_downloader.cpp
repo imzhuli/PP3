@@ -52,9 +52,10 @@ void xSmallServerListDownloader::EnableServerGroup(xServerGroup Type) {
     assert(Type != ST_SERVER_LIST);
     auto & Node = EnabledServerGroupMap[Type];
     assert(!Node.Enabled && !xListNode::IsLinked(Node) && !Node.ServerList && !Node.ServerGroup);
-    Node.Enabled     = true;
-    Node.ServerGroup = Type;
-    Node.ServerList  = new xSmallServerList();
+    Node.Enabled        = true;
+    Node.ServerGroup    = Type;
+    Node.ServerList     = new xSmallServerList();
+    Node.ServerListSize = 0;
     EnabledServerGroupList.AddTail(Node);
 }
 
@@ -126,15 +127,15 @@ void xSmallServerListDownloader::OnUdpPacket(const xUdpServiceChannelHandle &, x
     if (!PNode->Enabled) {
         return;
     }
-
     bool VersionChange = (PNode->VersionTimestampMS != Resp.VersionTimestampMS);
     if (VersionChange) {
+        auto & List = *PNode->ServerList;
         for (size_t I = 0; I < Resp.ServerListSize; ++I) {
-            PNode->ServerList[I] = Resp.ServerList[I];
+            List[I] = TempSmallServerListForResponse[I];
         }
         PNode->ServerListSize     = Resp.ServerListSize;
         PNode->VersionTimestampMS = Resp.VersionTimestampMS;
-        OnServerListUpdated(ServerGroup, PNode->ServerList->data(), PNode->ServerListSize, PNode->VersionTimestampMS);
+        OnServerListUpdated(ServerGroup, List.data(), PNode->ServerListSize, PNode->VersionTimestampMS);
     }
     return;
 }

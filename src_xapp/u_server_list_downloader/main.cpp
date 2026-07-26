@@ -11,6 +11,8 @@ static auto EnabledServerGroup = std::map<xServerGroup, bool>{
     { ST_RELAY_DISPATCHER_SLAVE, false },
 };
 
+static auto ServerAddress = xNetAddress::Parse("127.0.0.1:10000");
+
 static bool IsAllDone() {
     for (auto & G : EnabledServerGroup) {
         if (!G.second) {
@@ -73,10 +75,12 @@ int main(int argc, char ** argv) {
     };
 
     auto SLS = CL["server_list_server"];
-    X_RUNTIME_ASSERT(SLS);
+    if (SLS) {
+        ServerAddress = xNetAddress::Parse(*SLS);
+    }
 
     auto Downloader = xSmallServerListDownloader();
-    X_RUNTIME_ASSERT(Downloader.Init(xNetAddress::Parse(*SLS)));
+    X_RUNTIME_ASSERT(Downloader.Init(ServerAddress));
     for (auto & G : EnabledServerGroup) {
         Downloader.EnableServerGroup(G.first);
     }

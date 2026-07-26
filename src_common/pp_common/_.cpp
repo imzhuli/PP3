@@ -59,7 +59,10 @@ bool ValidateAppSign(const std::string & Sign, const std::string & SecretKey, co
 }
 
 uint32_t ExtractIndexFromServerId(uint64_t ServerId) {
-    return High32(ServerId >> 12);
+    assert(ServerId);
+    auto ObjectId = ExtractServerIdInternal(ServerId).ObjectId;
+    assert(ObjectId);
+    return ObjectId - 1;
 }
 
 ///////////////////

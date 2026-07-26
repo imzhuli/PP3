@@ -47,7 +47,7 @@ endfunction()
 
 set(SUB_APPS)
 set(SUB_DIRS ${SUB_DIRS}
-	s_address_challenge
+	s_device_entry
 	s_relay_device
 	s_relay_dispatcher_master
 	s_relay_dispatcher_slave
