@@ -40,7 +40,7 @@ int main(int argc, char ** argv) {
 
     SmallServerListDownloader.OnServerListUpdated = [&](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {
         if (ServerGroup == ST_RELAY_DISPATCHER_SLAVE) {
-            RelayInfoObserver.UpdateDispatcher(ServerList, ServerListSize);
+            RelayInfoObserver.UpdateServerList(ServerList, ServerListSize);
         }
     };
 

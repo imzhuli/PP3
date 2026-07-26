@@ -10,13 +10,13 @@ bool xRelayDispatcherSlaveService::Init(xIoContext * ICP, const xel::xNetAddress
         auto Context = new xRelayDispatcherSlaveClientContext();
         ClientList.AddTail(*Context);
         Context->ClientHandel = Handle;
-
         Handle->UserContext.P = Context;
     };
     TcpService.OnClientClean = [this](const xTcpServiceClientConnectionHandle & Handle) {
         auto Context = (xRelayDispatcherSlaveClientContext *)Steal(Handle->UserContext.P);
         delete Context;
     };
+    TcpService.OnClientPacket = Noop<false>;
     return true;
 }
 
