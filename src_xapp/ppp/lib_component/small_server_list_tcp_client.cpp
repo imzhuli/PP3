@@ -45,8 +45,8 @@ void xSmallServerListTcpClient::UpdateServerList(const xServerInfo * ServerInfoL
             DEBUG_LOG("RemoveServer: ServerId=%" PRIx64 ", Address=%s, ConnectionId=%" PRIx64 "", Old.ServerInfo.ServerId, Old.ServerInfo.Address.ToString().c_str(), Old.ConnectionId);
             ClientPool.RemoveServer(Steal(Old.ConnectionId));
             if (New.ServerId) {
-                Old.ConnectionId = ClientPool.AddServer(New.Address);
-                Old.ServerInfo   = New;
+                X_RUNTIME_ASSERT(Old.ConnectionId = ClientPool.AddServer(New.Address));
+                Old.ServerInfo = New;
                 DEBUG_LOG("AddServer: ServerId=%" PRIx64 ", Address=%s", New.ServerId, New.Address.ToString().c_str());
             }
         } else {
