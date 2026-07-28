@@ -4,7 +4,7 @@ import _check_env as ce
 import os
 
 build_dir   = "__build"
-install_dir = "__installed_debug"
+install_dir = "__installed_release"
 
 ############## prepare
 
