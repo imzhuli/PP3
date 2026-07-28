@@ -55,6 +55,7 @@ using xel::xCommandLine;
 using xel::xConfigLoader;
 using xel::xHmacSha256Result;
 using xel::xIndexedStorage;
+using xel::xIndexedStorageStatic;
 using xel::xIndexId;
 using xel::xIndexIdPool;
 using xel::xIoContext;

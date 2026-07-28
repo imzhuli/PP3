@@ -16,6 +16,7 @@ static void OnUdpPacket(const xUdpServiceChannelHandle & Handle, xPacketCommandI
         }
         auto RA = Handle.GetRemoteAddress();
         DEBUG_LOG("AddressChallenge from %s, data=%s", RA.IpToString().c_str(), std::string(Req.Message).c_str());
+        Pass(RA);
 
         auto Resp       = xPP_AddressChallengeResp();
         Resp.AddressKey = "World!~";
