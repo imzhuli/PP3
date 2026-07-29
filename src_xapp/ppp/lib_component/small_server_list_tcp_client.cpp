@@ -6,7 +6,6 @@ xSmallServerListTcpClient::xSmallServerListTcpClient() {
     if (!ClientPool.Init(ServiceIoContext, MAX_SMALL_SERVER_LIST_SIZE * 5)) {
         return;
     }
-    ClientPool.OnTargetPacket = Delegate(&xSmallServerListTcpClient::OnPacket, this);
     SetRaiiReady();
 }
 

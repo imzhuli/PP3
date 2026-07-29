@@ -5,6 +5,21 @@
 
 #include <pp_common/service_runtime.hpp>
 
+xRelayInfoObserver::xRelayInfoObserver()
+    : TcpClient() {
+    if (!xRaii::IsReady(TcpClient)) {
+        return;
+    }
+    TcpClient.OnServerPacket = Delegate(&xRelayInfoObserver::OnPacket, this);
+    SetRaiiReady();
+}
+
+xRelayInfoObserver::~xRelayInfoObserver() {
+    if (!IsRaiiReady()) {
+        return;
+    }
+}
+
 bool xRelayInfoObserver::OnPacket(const xTcpClientPoolConnectionHandle & Handle, xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) {
     if (CmdId == Cmd_RelayHeartbeatBroadcast) {
         auto B = xPP_RelayInfoBroadcast();

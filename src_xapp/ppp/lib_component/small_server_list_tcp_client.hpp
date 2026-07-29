@@ -1,7 +1,7 @@
 #pragma once
 #include <pp_common/_.hpp>
 
-class xSmallServerListTcpClient
+class xSmallServerListTcpClient final
     : public xRaii
     , xAbstract {
 public:
@@ -15,8 +15,9 @@ public:
         PostMessage(NextPostDataServerIndex++, CmdId, ReqId, Message);
     }
 
-protected:
-    virtual bool OnPacket(const xTcpClientPoolConnectionHandle & Handle, xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) = 0;
+    xTcpClientPool::xOnServerConnected & OnServerConnected = ClientPool.OnServerConnected;
+    xTcpClientPool::xOnServerClean &     OnServerClean     = ClientPool.OnServerClean;
+    xTcpClientPool::xOnServerPacket &    OnServerPacket    = ClientPool.OnServerPacket;
 
 private:
     struct xServerLocalInfo : xListNode {
