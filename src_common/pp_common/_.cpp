@@ -67,7 +67,7 @@ size32_t ExtractIndexFromSmallServerId(uint64_t ServerId) {
 
 size32_t ExtractIndexFromRelayServerId(uint64_t ServerId) {
     assert(ServerId);
-    return xIndexId(ServerId).GetIndex() - 1;
+    return xIndexId(ServerId).GetIndex();
 }
 
 ///////////////////

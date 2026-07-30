@@ -28,7 +28,7 @@ xRelayDispatcherMaster::xRelayDispatcherMaster(const xel::xNetAddress & RelayEnt
         return;
     }
 
-    RelayEntry.SetMaxConnectionIdleTimeoutMS(3 * 60'000);
+    RelayEntry.SetMaxConnectionIdleTimeoutMS(RELAY_HEARTBEAT_TIMEOUT_MS);
     RelayEntry.OnClientKeepAlive = Delegate(&xRelayDispatcherMaster::OnRelayEntryKeepAlive, this);
     RelayEntry.OnClientClean     = Delegate(&xRelayDispatcherMaster::OnRelayEntryClean, this);
     RelayEntry.OnClientPacket    = Delegate(&xRelayDispatcherMaster::OnRelayEntryPacket, this);
