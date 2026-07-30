@@ -110,16 +110,16 @@ private:
 };
 
 #ifndef NDEBUG
-#define DEBUG_LOG(fmt, ...) Logger->D("[%s:%i:%s] " fmt, std::filesystem::path(__FILE__).filename().c_str(), __LINE__, __func__ __VA_OPT__(, ) __VA_ARGS__)
-#define DEBUG_ADT(fmt, ...) AuditLogger->D("[%s:%i:%s] " fmt, std::filesystem::path(__FILE__).filename().c_str(), __LINE__, __func__ __VA_OPT__(, ) __VA_ARGS__)
+#define DEBUG_LOG(fmt, ...) Logger->D("[%s:%i:%s] " fmt, std::filesystem::path(X_U8_FILE).filename().c_str(), __LINE__, __func__ __VA_OPT__(, ) __VA_ARGS__)
+#define DEBUG_ADT(fmt, ...) AuditLogger->D("[%s:%i:%s] " fmt, std::filesystem::path(X_U8_FILE).filename().c_str(), __LINE__, __func__ __VA_OPT__(, ) __VA_ARGS__)
 #else
 #define DEBUG_LOG(...)
 #define DEBUG_ADT(...)
 #endif
 
-#define SERVICE_RUNTIME_ASSERT(cond)                                                                      \
-    do {                                                                                                  \
-        if (!(cond)) {                                                                                    \
-            AuditLogger->F("service assert: %i@%s, condition expression: %s", __LINE__, __FILE__, #cond); \
-        }                                                                                                 \
+#define SERVICE_RUNTIME_ASSERT(cond)                                                                       \
+    do {                                                                                                   \
+        if (!(cond)) {                                                                                     \
+            AuditLogger->F("service assert: %i@%s, condition expression: %s", __LINE__, X_U8_FILE, #cond); \
+        }                                                                                                  \
     } while (false)

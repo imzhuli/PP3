@@ -20,19 +20,19 @@ xRunState    ServiceRunState            = {};
 
 static void InitLogger() {
     Logger = new xBaseLogger();
-    X_RUNTIME_ASSERT(static_cast<xBaseLogger *>(Logger)->Init(std::string(ServiceEnvironment.DefaultLoggerFilePath).c_str()));
+    SERVICE_RUNTIME_ASSERT(static_cast<xBaseLogger *>(Logger)->Init(std::string(ServiceEnvironment.DefaultLoggerFilePath).c_str()));
     Logger->SetLogLevel(eLogLevel::Debug);
 
     AuditLogger = new xBaseLogger();
-    X_RUNTIME_ASSERT(static_cast<xBaseLogger *>(AuditLogger)->Init(std::string(ServiceEnvironment.DefaultAuditLoggerFilePath).c_str()));
+    SERVICE_RUNTIME_ASSERT(static_cast<xBaseLogger *>(AuditLogger)->Init(std::string(ServiceEnvironment.DefaultAuditLoggerFilePath).c_str()));
 }
 
 static void CleanLogger() {
-    X_RUNTIME_ASSERT(AuditLogger);
+    SERVICE_RUNTIME_ASSERT(AuditLogger);
     static_cast<xBaseLogger *>(AuditLogger)->Clean();
     delete Steal(AuditLogger, &NonLogger);
 
-    X_RUNTIME_ASSERT(Logger);
+    SERVICE_RUNTIME_ASSERT(Logger);
     static_cast<xBaseLogger *>(Logger)->Clean();
     delete Steal(Logger, &NonLogger);
 }
@@ -41,54 +41,54 @@ static auto Instance = (xServiceEnvironmentGuard *){};
 static auto EnvMutex = std::mutex();
 
 void AssertServiceEnviromentReady() {
-    X_RUNTIME_ASSERT(Instance);
+    SERVICE_RUNTIME_ASSERT(Instance);
 }
 
 xServiceEnvironmentGuard::xServiceEnvironmentGuard(int argc, char ** argv)
     : EnableLogger(true) {
     auto G = std::lock_guard(EnvMutex);
-    X_RUNTIME_ASSERT(!Instance);
+    SERVICE_RUNTIME_ASSERT(!Instance);
 
     ServiceEnvironment = xRuntimeEnv::FromCommandLine(argc, argv);
     if (EnableLogger) {
         InitLogger();
     }
     ServiceIoContext = &ServiceIoContextInstance;
-    X_RUNTIME_ASSERT(ServiceIoContext->Init());
-    X_RUNTIME_ASSERT(ServiceRunState.Start());
+    SERVICE_RUNTIME_ASSERT(ServiceIoContext->Init());
+    SERVICE_RUNTIME_ASSERT(ServiceRunState.Start());
     Instance = this;
 }
 
 xServiceEnvironmentGuard::xServiceEnvironmentGuard(int argc, char ** argv, const decltype(ServiceNoLogger) &)
     : EnableLogger(false) {
     auto G = std::lock_guard(EnvMutex);
-    X_RUNTIME_ASSERT(!Instance);
+    SERVICE_RUNTIME_ASSERT(!Instance);
 
     ServiceEnvironment = xRuntimeEnv::FromCommandLine(argc, argv);
     ServiceIoContext   = &ServiceIoContextInstance;
-    X_RUNTIME_ASSERT(ServiceIoContext->Init());
-    X_RUNTIME_ASSERT(ServiceRunState.Start());
+    SERVICE_RUNTIME_ASSERT(ServiceIoContext->Init());
+    SERVICE_RUNTIME_ASSERT(ServiceRunState.Start());
     Instance = this;
 }
 
 xServiceEnvironmentGuard::xServiceEnvironmentGuard(int argc, char ** argv, const decltype(ServiceConsoleLogger) &)
     : EnableLogger(false) {
     auto G = std::lock_guard(EnvMutex);
-    X_RUNTIME_ASSERT(!Instance);
+    SERVICE_RUNTIME_ASSERT(!Instance);
 
     ServiceEnvironment = xRuntimeEnv::FromCommandLine(argc, argv);
     Reset(AuditLogger, &StdLogger);
     Reset(Logger, &StdLogger);
 
     ServiceIoContext = &ServiceIoContextInstance;
-    X_RUNTIME_ASSERT(ServiceIoContext->Init());
-    X_RUNTIME_ASSERT(ServiceRunState.Start());
+    SERVICE_RUNTIME_ASSERT(ServiceIoContext->Init());
+    SERVICE_RUNTIME_ASSERT(ServiceRunState.Start());
     Instance = this;
 }
 
 xServiceEnvironmentGuard::~xServiceEnvironmentGuard() {
     auto G = std::lock_guard(EnvMutex);
-    X_RUNTIME_ASSERT(this == Instance);
+    SERVICE_RUNTIME_ASSERT(this == Instance);
 
     ServiceRunState.Finish();
     Steal(ServiceIoContext)->Clean();

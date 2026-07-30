@@ -25,8 +25,8 @@ static void OnUdpPacket(const xUdpServiceChannelHandle & Handle, xPacketCommandI
 }
 
 xAddressChallengeService::xAddressChallengeService(const std::vector<xel::xNetAddress> & BindAddressList) {
-    X_RUNTIME_ASSERT(ServiceRunState);
-    X_RUNTIME_ASSERT(BindAddressList.size());
+    SERVICE_RUNTIME_ASSERT(ServiceRunState);
+    SERVICE_RUNTIME_ASSERT(BindAddressList.size());
     bool HasError = false;
     for (auto & BA : BindAddressList) {
         auto S = new xUdpService();

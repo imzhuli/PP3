@@ -33,7 +33,7 @@ int main(int argc, char ** argv) {
     auto AddressChallengeService = xAddressChallengeService(Steal(Addresses));
 
     auto RelayInfoObserver = std::make_unique<xRelayInfoObserver>();
-    X_RUNTIME_ASSERT(xRaii::IsReady(*RelayInfoObserver));
+    SERVICE_RUNTIME_ASSERT(xRaii::IsReady(*RelayInfoObserver));
     RelayInfoObserver->OnRelayUpdated = [](const auto & RelayInfo) {
         DEBUG_LOG(
             "NewRelay: %" PRIx64 ", DeviceAddress=%s, ProxyAddress=%s",

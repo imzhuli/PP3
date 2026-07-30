@@ -11,7 +11,7 @@ static constexpr const size_t MAX_DNS_FUTURE_COUNT             = 1'0000;
 static constexpr const size_t LOCAL_DEVICE_DEFAULT_BUFFER_SIZE = 16'000;
 
 static uint64_t MakeLocalDeviceId(size_t Index) {
-    X_RUNTIME_ASSERT(Index < std::numeric_limits<uint32_t>::max());
+    SERVICE_RUNTIME_ASSERT(Index < std::numeric_limits<uint32_t>::max());
     return Make64(DEVICE_ID_HIGH32_MAGIC, Index);
 }
 
@@ -70,22 +70,22 @@ bool xRelayLocalBindingService::Init(uint64_t ServerId, const std::string & Addr
         auto AM     = Split(Segs[0], "->");
         auto FN     = Split(Segs[1], ",");
         auto Option = xRelayLocalBindingOption();
-        X_RUNTIME_ASSERT(AM.size() == 2);
+        SERVICE_RUNTIME_ASSERT(AM.size() == 2);
         auto B = xNetAddress::Parse(Trim(AM[0]));
         auto E = xNetAddress::Parse(Trim(AM[1]));
-        X_RUNTIME_ASSERT(B && E);
+        SERVICE_RUNTIME_ASSERT(B && E);
         Option.BindAddress   = B;
         Option.ExportAddress = E;
         do {
             for (auto & F : FN) {
                 F = Trim(F);
                 if (!strcmp(F.c_str(), "tcp")) {  // enable tcp
-                    X_RUNTIME_ASSERT(!Steal(Option.EnableTcp, true));
+                    SERVICE_RUNTIME_ASSERT(!Steal(Option.EnableTcp, true));
                 }
                 if (!strcmp(F.c_str(), "udp")) {  // enable tcp
-                    X_RUNTIME_ASSERT(!Steal(Option.EnableUdp, true));
+                    SERVICE_RUNTIME_ASSERT(!Steal(Option.EnableUdp, true));
                 }
-                X_RUNTIME_ASSERT(Option.EnableTcp || Option.EnableUdp);
+                SERVICE_RUNTIME_ASSERT(Option.EnableTcp || Option.EnableUdp);
             }
         } while (false);
         BindAddressPairList.push_back(Option);
@@ -94,8 +94,8 @@ bool xRelayLocalBindingService::Init(uint64_t ServerId, const std::string & Addr
 }
 
 bool xRelayLocalBindingService::Init(uint64_t ServerId, const std::vector<xRelayLocalBindingOption> & BindAddressPairList) {
-    X_RUNTIME_ASSERT(ServerId);
-    X_RUNTIME_ASSERT(ServiceRunState);
+    SERVICE_RUNTIME_ASSERT(ServerId);
+    SERVICE_RUNTIME_ASSERT(ServiceRunState);
     if (!CreateLocalDeviceList(BindAddressPairList)) {
         Logger->E("CreateLocalDeviceList error");
         return false;
@@ -142,11 +142,11 @@ void xRelayLocalBindingService::SetDeviceBufferSize(size_t Size) {
 }
 
 void xRelayLocalBindingService::BindProxyService(xProxyServiceAbstract * ProxyService) {
-    X_RUNTIME_ASSERT(!Steal(this->ProxyService, ProxyService));
+    SERVICE_RUNTIME_ASSERT(!Steal(this->ProxyService, ProxyService));
 }
 
 void xRelayLocalBindingService::BindDnsService(xDnsServiceAbstract * DnsService) {
-    X_RUNTIME_ASSERT(!Steal(this->DnsService, DnsService));
+    SERVICE_RUNTIME_ASSERT(!Steal(this->DnsService, DnsService));
 }
 
 void xRelayLocalBindingService::Tick(uint64_t NowMS) {
@@ -168,7 +168,7 @@ std::string xRelayLocalBindingService::OutputAudit() const {
 }
 
 bool xRelayLocalBindingService::CreateLocalDeviceList(const std::vector<xRelayLocalBindingOption> & OptionList) {
-    X_RUNTIME_ASSERT(LocalDeviceList.empty());
+    SERVICE_RUNTIME_ASSERT(LocalDeviceList.empty());
     size_t IndexCount = 0;
     for (auto & O : OptionList) {
         auto DInfo = xRelayLocalDevice{
@@ -179,10 +179,10 @@ bool xRelayLocalBindingService::CreateLocalDeviceList(const std::vector<xRelayLo
             .EnableUdp     = O.EnableUdp,
         };
         auto & E = LocalDeviceExportAddressMap[DInfo.ExportAddress];
-        X_RUNTIME_ASSERT(!Steal(E, DInfo.DeviceId));
+        SERVICE_RUNTIME_ASSERT(!Steal(E, DInfo.DeviceId));
         LocalDeviceList.push_back(DInfo);
     }
-    X_RUNTIME_ASSERT(LocalDeviceList.size() == LocalDeviceExportAddressMap.size());
+    SERVICE_RUNTIME_ASSERT(LocalDeviceList.size() == LocalDeviceExportAddressMap.size());
     for (auto & D : LocalDeviceList) {
         AuditLogger->I("EnableDevice:\n\t%s", D.ToString().c_str());
     }

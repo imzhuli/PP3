@@ -88,8 +88,8 @@ bool xProxyAccessService::Init(const std::string & AddressListFilename) {
 }
 
 bool xProxyAccessService::Init(const std::vector<xExportBindAddress> & AddressList) {
-    X_RUNTIME_ASSERT(ServiceRunState);
-    X_RUNTIME_ASSERT(AddressList.size());
+    SERVICE_RUNTIME_ASSERT(ServiceRunState);
+    SERVICE_RUNTIME_ASSERT(AddressList.size());
     if (!ClientConnectionPool.Init(PA_MAX_CLIENT_CONNECTION)) {
         Logger->E("ClientConnectionPool init error");
         return false;
@@ -110,8 +110,8 @@ bool xProxyAccessService::Init(const std::vector<xExportBindAddress> & AddressLi
         Reset(ClientEntryServerList);
     });
     for (auto & Pair : AddressList) {
-        X_RUNTIME_ASSERT(Pair.BindAddress && Pair.BindAddress.Port);
-        X_RUNTIME_ASSERT(Pair.ExportIp && !Pair.ExportIp.Port);
+        SERVICE_RUNTIME_ASSERT(Pair.BindAddress && Pair.BindAddress.Port);
+        SERVICE_RUNTIME_ASSERT(Pair.ExportIp && !Pair.ExportIp.Port);
         auto Server      = new xClientEntryServer();
         Server->ExportIp = Pair.ExportIp;
         if (!Server->Init(ServiceIoContext, Pair.BindAddress, this)) {

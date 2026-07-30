@@ -21,7 +21,7 @@ int main(int argc, char ** argv) {
     CL.Require(DispatcherEntryBindAddress, "DispatcherEntryBindAddress");
 
     auto RDM = std::make_unique<xRelayDispatcherMaster>(RelayEntryBindAddress, DispatcherEntryBindAddress);
-    X_RUNTIME_ASSERT(xRaii::IsReady(*RDM));
+    SERVICE_RUNTIME_ASSERT(xRaii::IsReady(*RDM));
 
     auto RelayEntryServerIdClientOptions = xServerIdClientOptions{
         .ServerGroup   = ST_RELAY_REGISTER,

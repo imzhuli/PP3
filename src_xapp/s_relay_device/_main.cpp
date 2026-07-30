@@ -28,19 +28,19 @@ int main(int argc, char ** argv) {
     CL.Require(ExportDeviceEntryAddress, "ExportDeviceEntryAddress");
     CL.Require(ExportProxyEntryAddress, "ExportProxyEntryAddress");
 
-    X_RUNTIME_ASSERT(SmallServerListAddress && SmallServerListAddress.Port);
-    X_RUNTIME_ASSERT(DeviceEntryAddress && DeviceEntryAddress.Port);
-    X_RUNTIME_ASSERT(ProxyEntryAddress && ProxyEntryAddress.Port);
-    X_RUNTIME_ASSERT(ExportDeviceEntryAddress && ExportDeviceEntryAddress.Port);
-    X_RUNTIME_ASSERT(ExportProxyEntryAddress && ExportProxyEntryAddress.Port);
+    SERVICE_RUNTIME_ASSERT(SmallServerListAddress && SmallServerListAddress.Port);
+    SERVICE_RUNTIME_ASSERT(DeviceEntryAddress && DeviceEntryAddress.Port);
+    SERVICE_RUNTIME_ASSERT(ProxyEntryAddress && ProxyEntryAddress.Port);
+    SERVICE_RUNTIME_ASSERT(ExportDeviceEntryAddress && ExportDeviceEntryAddress.Port);
+    SERVICE_RUNTIME_ASSERT(ExportProxyEntryAddress && ExportProxyEntryAddress.Port);
 
     X_RESOURCE_GUARD_ASSERTED(RelayDispatcherMaster, ServiceIoContext);
     X_RESOURCE_GUARD_ASSERTED(SmallServerListDownloader, SmallServerListAddress);
 
     auto DeviceSideService = std::make_unique<xRelayDeviceSideService>(DeviceEntryAddress);
     auto ProxySideService  = std::make_unique<xRelayProxySideService>(ProxyEntryAddress);
-    X_RUNTIME_ASSERT(xRaii::IsReady(*DeviceSideService));
-    X_RUNTIME_ASSERT(xRaii::IsReady(*ProxySideService));
+    SERVICE_RUNTIME_ASSERT(xRaii::IsReady(*DeviceSideService));
+    SERVICE_RUNTIME_ASSERT(xRaii::IsReady(*ProxySideService));
 
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_REGISTER);
     SmallServerListDownloader.OnServerListUpdated = [](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {

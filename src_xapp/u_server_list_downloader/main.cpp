@@ -100,7 +100,7 @@ int main(int argc, char ** argv) {
     }
 
     auto Downloader = xSmallServerListDownloader();
-    X_RUNTIME_ASSERT(Downloader.Init(ServerAddress));
+    SERVICE_RUNTIME_ASSERT(Downloader.Init(ServerAddress));
     for (auto & G : EnabledServerGroup) {
         Downloader.EnableServerGroup(G.first);
     }

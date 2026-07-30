@@ -12,7 +12,7 @@ static constexpr const uint64_t DNS_QUERY_TIMEOUT_MS         = 5'000;
 static constexpr const uint64_t DNS_CACHE_TIMEOUT_MS         = 45 * 60'000;
 
 // #include <ares.h>
-// static X_SCOPE_GUARD([] { X_RUNTIME_ASSERT(!ares_library_init(ARES_LIB_INIT_ALL)); }, [] { ares_library_cleanup(); });
+// static X_SCOPE_GUARD([] { SERVICE_RUNTIME_ASSERT(!ares_library_init(ARES_LIB_INIT_ALL)); }, [] { ares_library_cleanup(); });
 // [[maybe_unused]] static void AresCallback(void * arg, int status, int timeouts, struct hostent * host) {
 //     if (status == ARES_SUCCESS) {
 //         printf("DNS查询成功: %s\n", host->h_name);
