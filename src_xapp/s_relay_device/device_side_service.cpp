@@ -6,6 +6,7 @@ xRelayDeviceSideService::xRelayDeviceSideService(const xNetAddress & BindAddress
     if (!TcpService.Init(ServiceIoContext, BindAddress, MAX_DEVICE_CONNECTION_COUNT)) {
         return;
     }
+    SetRaiiReady();
 }
 
 xRelayDeviceSideService::~xRelayDeviceSideService() {

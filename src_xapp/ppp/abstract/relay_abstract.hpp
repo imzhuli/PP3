@@ -37,6 +37,6 @@ struct xRelayServiceAbstract
 
 struct xRelayServerInfo {
     eRelayServerType RelayServerType;
-    xNetAddress      ExportDeviceSideAddress;
-    xNetAddress      ExportProxySideAddrfess;
+    xNetAddress      ExportDeviceEntryAddress;
+    xNetAddress      ExportProxyEntryAddress;
 };

@@ -1,3 +1,7 @@
+#include "./device_side_service.hpp"
+#include "./proxy_side_service.hpp"
+
+#include <const/ppp_const.hpp>
 #include <lib_component/small_server_list_downloader.hpp>
 #include <pp_common/service_runtime.hpp>
 #include <pp_protocol/command.hpp>
@@ -33,6 +37,11 @@ int main(int argc, char ** argv) {
     X_RESOURCE_GUARD_ASSERTED(RelayDispatcherMaster, ServiceIoContext);
     X_RESOURCE_GUARD_ASSERTED(SmallServerListDownloader, SmallServerListAddress);
 
+    auto DeviceSideService = std::make_unique<xRelayDeviceSideService>(DeviceEntryAddress);
+    auto ProxySideService  = std::make_unique<xRelayProxySideService>(ProxyEntryAddress);
+    X_RUNTIME_ASSERT(xRaii::IsReady(*DeviceSideService));
+    X_RUNTIME_ASSERT(xRaii::IsReady(*ProxySideService));
+
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_REGISTER);
     SmallServerListDownloader.OnServerListUpdated = [](xServerGroup ServerGroup, const xServerInfo * ServerList, size_t ServerListSize, uint64_t VersionTimestampMS) {
         if (!ServerListSize) {
@@ -49,12 +58,12 @@ int main(int argc, char ** argv) {
         }
     };
 
-    RelayDispatcherMaster.SetRequestKeepAliveInterval(60'000);
+    RelayDispatcherMaster.SetRequestKeepAliveInterval(RELAY_HEARTBEAT_INTERVAL_MS);
     RelayDispatcherMaster.OnServerConnected = [] {
-        auto Register                    = xPP_RelayRegister();
-        Register.RelayServerType         = eRelayServerType::DEVICE;
-        Register.ExportDeviceSideAddress = DeviceEntryAddress;
-        Register.ExportProxySideAddrfess = ProxyEntryAddress;
+        auto Register                     = xPP_RelayRegister();
+        Register.RelayServerType          = eRelayServerType::DEVICE;
+        Register.ExportDeviceEntryAddress = DeviceEntryAddress;
+        Register.ExportProxyEntryAddress  = ProxyEntryAddress;
         RelayDispatcherMaster.PostMessage(Cmd_RelayInfoRegister, 0, Register);
     };
     RelayDispatcherMaster.OnServerPacket = [](xPacketCommandId CommandId, xPacketRequestId RequestId, ubyte * PayloadPtr, size_t PayloadSize) -> bool {
@@ -75,7 +84,9 @@ int main(int argc, char ** argv) {
     };
 
     while (ServiceRunState) {
-        ServiceUpdateOnce(SmallServerListDownloader, RelayDispatcherMaster);
+        ServiceUpdateOnce(SmallServerListDownloader, RelayDispatcherMaster,  //
+                          *DeviceSideService, *ProxySideService              //
+        );
     }
 
     return 0;

@@ -34,6 +34,18 @@ int main(int argc, char ** argv) {
 
     auto RelayInfoObserver = std::make_unique<xRelayInfoObserver>();
     X_RUNTIME_ASSERT(xRaii::IsReady(*RelayInfoObserver));
+    RelayInfoObserver->OnRelayUpdated = [](const auto & RelayInfo) {
+        DEBUG_LOG(
+            "NewRelay: %" PRIx64 ", DeviceAddress=%s, ProxyAddress=%s",
+            RelayInfo.ServerId, RelayInfo.ExportDeviceEntryAddress.ToString().c_str(), RelayInfo.ExportProxyEntryAddress.ToString().c_str()
+        );
+    };
+    RelayInfoObserver->OnRelayDropped = [](const auto & RelayInfo) {
+        DEBUG_LOG(
+            "DropRelay: %" PRIx64 ", DeviceAddress=%s, ProxyAddress=%s",
+            RelayInfo.ServerId, RelayInfo.ExportDeviceEntryAddress.ToString().c_str(), RelayInfo.ExportProxyEntryAddress.ToString().c_str()
+        );
+    };
 
     X_RESOURCE_GUARD_ASSERTED(SmallServerListDownloader, ServerIdServerAddress);
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_DISPATCHER_SLAVE);

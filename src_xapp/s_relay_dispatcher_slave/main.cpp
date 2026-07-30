@@ -28,7 +28,7 @@ int main(int argc, char ** argv) {
         .ServerGroup   = ST_RELAY_DISPATCHER_SLAVE,
         .ExportAddress = ExportDispatcherBindAddress,
     };
-    X_RESOURCE_GUARD_ASSERTED(ServerIdCleint, ServiceIoContext, ServerIdClientOptions, SmallServerListServer);
+    X_RESOURCE_GUARD_ASSERTED(ServerIdCleint, ServiceIoContext, ServerIdClientOptions, SmallServerListServer, ServiceEnvironment.DefaultLocalServerIdFilePath);
     X_RESOURCE_GUARD_ASSERTED(SmallServerListDownloader, SmallServerListServer);
 
     SmallServerListDownloader.EnableServerGroup(ST_RELAY_DISPATCHER_MASTER);

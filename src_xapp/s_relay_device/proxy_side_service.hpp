@@ -1,7 +1,7 @@
 #pragma once
 #include <abstract/relay_abstract.hpp>
 
-class xRelayProxySideService
+class xRelayProxySideService final
     : public xRaii {
 public:
     static constexpr const size_t MAX_PROXY_SIDE_CONNECTION_COUNT = 10'0000;

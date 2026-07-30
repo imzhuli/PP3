@@ -1,8 +1,12 @@
 #pragma once
 #include <pp_common/_.hpp>
 
-static constexpr const size_t   MAX_TOTAL_DEVICE_CONNECTION_COUNT      = 20'0000;
-static constexpr const size_t   MAX_TOTAL_DEVICE_UDPCHANNEL_COUNT      = 10'0000;
+static constexpr const size_t   MAX_RELAY_SERVER_LIST_SIZE             = 20'0000;
+static constexpr const uint64_t RELAY_HEARTBEAT_INTERVAL_MS            = 5 * 60'000;
+static constexpr const uint64_t RELAY_HEARTBEAT_TIMEOUT_MS             = RELAY_HEARTBEAT_INTERVAL_MS + 60'000;
+//
+static constexpr const size_t   MAX_TOTAL_DEVICE_CONNECTION_COUNT      = 30'0000;
+static constexpr const size_t   MAX_TOTAL_DEVICE_UDPCHANNEL_COUNT      = 15'0000;
 static constexpr const size_t   MAX_REMOTE_DEVICE_COUNT_PER_SERVER     = 25'0000;
 static constexpr const size_t   MAX_LOCAL_DEVICE_COUNT_PER_SERVER      = 1'0000;
 //

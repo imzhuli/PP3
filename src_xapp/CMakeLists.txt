@@ -49,6 +49,7 @@ set(SUB_APPS)
 set(SUB_DIRS ${SUB_DIRS}
 	s_device_entry
 	s_relay_device
+	s_relay_device_dispatcher
 	s_relay_dispatcher_master
 	s_relay_dispatcher_slave
 	s_small_server_list

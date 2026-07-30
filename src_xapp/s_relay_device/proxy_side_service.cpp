@@ -6,6 +6,7 @@ xRelayProxySideService::xRelayProxySideService(const xNetAddress & BindAddress) 
     if (!TcpService.Init(ServiceIoContext, BindAddress, MAX_PROXY_SIDE_CONNECTION_COUNT)) {
         return;
     }
+    SetRaiiReady();
 }
 
 xRelayProxySideService::~xRelayProxySideService() {

@@ -58,11 +58,16 @@ bool ValidateAppSign(const std::string & Sign, const std::string & SecretKey, co
     return StrToHex(D.data(), D.size()) == Segs[1];
 }
 
-uint32_t ExtractIndexFromServerId(uint64_t ServerId) {
+size32_t ExtractIndexFromSmallServerId(uint64_t ServerId) {
     assert(ServerId);
     auto ObjectId = ExtractServerIdInternal(ServerId).ObjectId;
     assert(ObjectId);
     return ObjectId - 1;
+}
+
+size32_t ExtractIndexFromRelayServerId(uint64_t ServerId) {
+    assert(ServerId);
+    return xIndexId(ServerId).GetIndex() - 1;
 }
 
 ///////////////////

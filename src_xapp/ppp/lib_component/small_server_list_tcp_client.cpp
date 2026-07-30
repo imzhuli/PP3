@@ -26,7 +26,7 @@ void xSmallServerListTcpClient::UpdateServerList(const xServerInfo * ServerInfoL
     for (auto I = size_t(0); I < ServerInfoListSize; ++I) {
         auto & SI = ServerInfoList[I];
         assert(SI.ServerId);
-        auto Index                      = ExtractIndexFromServerId(SI.ServerId);
+        auto Index                      = ExtractIndexFromSmallServerId(SI.ServerId);
         NewServerArray[Index]           = SI;
         PackedServerList[I].ServerIndex = Index;
     }

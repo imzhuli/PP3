@@ -141,16 +141,17 @@ using std::function;
 // min_defs:
 using xVersion = uint32_t;
 
-constexpr const xServerGroup ST_SERVER_LIST             = 0x00;
-constexpr const xServerGroup ST_TARGET_COLLECTOR        = 0x01;
-constexpr const xServerGroup ST_AUDIT_COLLECTOR         = 0x02;
-constexpr const xServerGroup ST_RELAY_REGISTER          = 0x03;
-constexpr const xServerGroup ST_RELAY_DISPATCHER_MASTER = 0x04;
-constexpr const xServerGroup ST_RELAY_DISPATCHER_SLAVE  = 0x05;
-constexpr const xServerGroup ST_DEVICE_DISPATCHER       = 0x06;
-constexpr const xServerGroup ST_DEVICE_LOCATOR          = 0x07;
-constexpr const xServerGroup ST_AUTH_SERVER             = 0x08;
-constexpr const xServerGroup ST_LAST_DEVICE_USAGE       = 0x09;
+constexpr const xServerGroup ST_SERVER_LIST                      = 0x00;
+constexpr const xServerGroup ST_TARGET_COLLECTOR                 = 0x01;
+constexpr const xServerGroup ST_AUDIT_COLLECTOR                  = 0x02;
+constexpr const xServerGroup ST_RELAY_REGISTER                   = 0x03;
+constexpr const xServerGroup ST_RELAY_DISPATCHER_MASTER          = 0x04;
+constexpr const xServerGroup ST_RELAY_DISPATCHER_SLAVE           = 0x05;
+constexpr const xServerGroup ST_DEVICE_DISPATCHER_PRODUCER_ENTRY = 0x06;
+constexpr const xServerGroup ST_DEVICE_DISPATCHER_OBSERVER_ENTRY = 0x07;
+constexpr const xServerGroup ST_DEVICE_LOCATOR                   = 0x08;
+constexpr const xServerGroup ST_AUTH_SERVER                      = 0x09;
+constexpr const xServerGroup ST_LAST_DEVICE_USAGE                = 0x0A;
 
 struct xServerInfo {
     xServerId   ServerId = {};
@@ -260,7 +261,8 @@ static inline std::string AppSign(uint64_t Timestamp, const std::string & Secret
 extern bool ValidateAppSign(const std::string & Sign, const std::string & SecretKey, const void * DataPtr, size_t Size);
 static inline bool ValidateAppSign(const std::string & Sign, const std::string & SecretKey, const std::string_view& V) { return ValidateAppSign(Sign, SecretKey, V.data(), V.size()); }
 
-extern uint32_t ExtractIndexFromServerId(uint64_t ServerId);
+extern size32_t ExtractIndexFromSmallServerId(uint64_t ServerId);
+extern size32_t ExtractIndexFromRelayServerId(uint64_t ServerId);
 
 // clang-format on
 extern std::string    ToLower(const std::string & Src);

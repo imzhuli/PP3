@@ -9,6 +9,11 @@ static auto EnabledServerGroup = std::map<xServerGroup, bool>{
     { ST_RELAY_REGISTER, false },
     { ST_RELAY_DISPATCHER_MASTER, false },
     { ST_RELAY_DISPATCHER_SLAVE, false },
+    { ST_DEVICE_DISPATCHER_PRODUCER_ENTRY, false },
+    { ST_DEVICE_DISPATCHER_OBSERVER_ENTRY, false },
+    { ST_DEVICE_LOCATOR, false },
+    { ST_AUTH_SERVER, false },
+    { ST_LAST_DEVICE_USAGE, false },
 };
 
 static auto ServerAddress = xNetAddress::Parse("127.0.0.1:10000");
@@ -39,6 +44,21 @@ static void OnServerListUpdated(xServerGroup ServerGroup, const xServerInfo * Se
             break;
         case ST_RELAY_DISPATCHER_SLAVE:
             GroupName = "ST_RELAY_DISPATCHER_SLAVE";
+            break;
+        case ST_DEVICE_DISPATCHER_PRODUCER_ENTRY:
+            GroupName = "ST_DEVICE_DISPATCHER_PRODUCER_ENTRY";
+            break;
+        case ST_DEVICE_DISPATCHER_OBSERVER_ENTRY:
+            GroupName = "ST_DEVICE_DISPATCHER_OBSERVER_ENTRY";
+            break;
+        case ST_DEVICE_LOCATOR:
+            GroupName = "ST_DEVICE_LOCATOR";
+            break;
+        case ST_AUTH_SERVER:
+            GroupName = "ST_AUTH_SERVER";
+            break;
+        case ST_LAST_DEVICE_USAGE:
+            GroupName = "ST_LAST_DEVICE_USAGE";
             break;
 
         default:

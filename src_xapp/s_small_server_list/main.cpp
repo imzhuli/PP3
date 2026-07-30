@@ -135,7 +135,8 @@ int main(int argc, char ** argv) {
             EnableServerGroup(ST_RELAY_REGISTER);
             EnableServerGroup(ST_RELAY_DISPATCHER_MASTER);
             EnableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
-            EnableServerGroup(ST_DEVICE_DISPATCHER);
+            EnableServerGroup(ST_DEVICE_DISPATCHER_PRODUCER_ENTRY);
+            EnableServerGroup(ST_DEVICE_DISPATCHER_OBSERVER_ENTRY);
             EnableServerGroup(ST_DEVICE_LOCATOR);
             EnableServerGroup(ST_AUTH_SERVER);
             EnableServerGroup(ST_LAST_DEVICE_USAGE);
@@ -146,7 +147,8 @@ int main(int argc, char ** argv) {
             ServerIdService.EnableServerGroup(ST_RELAY_REGISTER);
             ServerIdService.EnableServerGroup(ST_RELAY_DISPATCHER_MASTER);
             ServerIdService.EnableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
-            ServerIdService.EnableServerGroup(ST_DEVICE_DISPATCHER);
+            ServerIdService.EnableServerGroup(ST_DEVICE_DISPATCHER_PRODUCER_ENTRY);
+            ServerIdService.EnableServerGroup(ST_DEVICE_DISPATCHER_OBSERVER_ENTRY);
             ServerIdService.EnableServerGroup(ST_DEVICE_LOCATOR);
             ServerIdService.EnableServerGroup(ST_AUTH_SERVER);
             ServerIdService.EnableServerGroup(ST_LAST_DEVICE_USAGE);
@@ -158,7 +160,8 @@ int main(int argc, char ** argv) {
             DisableServerGroup(ST_RELAY_REGISTER);
             DisableServerGroup(ST_RELAY_DISPATCHER_MASTER);
             DisableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
-            DisableServerGroup(ST_DEVICE_DISPATCHER);
+            DisableServerGroup(ST_DEVICE_DISPATCHER_PRODUCER_ENTRY);
+            DisableServerGroup(ST_DEVICE_DISPATCHER_OBSERVER_ENTRY);
             DisableServerGroup(ST_DEVICE_LOCATOR);
             DisableServerGroup(ST_AUTH_SERVER);
             DisableServerGroup(ST_LAST_DEVICE_USAGE);
@@ -169,7 +172,8 @@ int main(int argc, char ** argv) {
             ServerIdService.DisableServerGroup(ST_RELAY_REGISTER);
             ServerIdService.DisableServerGroup(ST_RELAY_DISPATCHER_MASTER);
             ServerIdService.DisableServerGroup(ST_RELAY_DISPATCHER_SLAVE);
-            ServerIdService.DisableServerGroup(ST_DEVICE_DISPATCHER);
+            ServerIdService.DisableServerGroup(ST_DEVICE_DISPATCHER_PRODUCER_ENTRY);
+            ServerIdService.DisableServerGroup(ST_DEVICE_DISPATCHER_OBSERVER_ENTRY);
             ServerIdService.DisableServerGroup(ST_DEVICE_LOCATOR);
             ServerIdService.DisableServerGroup(ST_AUTH_SERVER);
             ServerIdService.DisableServerGroup(ST_LAST_DEVICE_USAGE);

@@ -4,18 +4,18 @@
 struct xPP_RelayRegister final : xBinaryMessage {
     void SerializeMembers() override {
         W(RelayServerType);
-        W(ExportDeviceSideAddress);
-        W(ExportProxySideAddrfess);
+        W(ExportDeviceEntryAddress);
+        W(ExportProxyEntryAddress);
     }
     void DeserializeMembers() override {
         R(RelayServerType);
-        R(ExportDeviceSideAddress);
-        R(ExportProxySideAddrfess);
+        R(ExportDeviceEntryAddress);
+        R(ExportProxyEntryAddress);
     }
 
     eRelayServerType RelayServerType;
-    xNetAddress      ExportDeviceSideAddress;
-    xNetAddress      ExportProxySideAddrfess;
+    xNetAddress      ExportDeviceEntryAddress;
+    xNetAddress      ExportProxyEntryAddress;
 };
 
 struct xPP_RelayRegisterResp final : xBinaryMessage {
@@ -32,20 +32,20 @@ struct xPP_RelayInfoBroadcast final : xBinaryMessage {
     void SerializeMembers() override {
         W(Type);
         W(ServerId);
-        W(ExportDeviceSideAddress);
-        W(ExportProxySideAddrfess);
+        W(ExportDeviceEntryAddress);
+        W(ExportProxyEntryAddress);
     }
     void DeserializeMembers() override {
         R(Type);
         R(ServerId);
-        R(ExportDeviceSideAddress);
-        R(ExportProxySideAddrfess);
+        R(ExportDeviceEntryAddress);
+        R(ExportProxyEntryAddress);
     }
 
     eRelayServerType Type;
     uint64_t         ServerId;
-    xNetAddress      ExportDeviceSideAddress;
-    xNetAddress      ExportProxySideAddrfess;
+    xNetAddress      ExportDeviceEntryAddress;
+    xNetAddress      ExportProxyEntryAddress;
 };
 
 struct xPP_RelayInfoLost final : xBinaryMessage {

@@ -21,7 +21,8 @@ struct xRelayDeviceSideVirtualConnection : xListNode {
     uint64_t VirtualConnectionId = 0;
 };
 
-class xRelayDeviceSideService : public xRaii {
+class xRelayDeviceSideService final
+    : public xRaii {
 public:
     static constexpr const size_t MAX_DEVICE_COUNT            = 50'0000;
     static constexpr const size_t MAX_DEVICE_CONNECTION_COUNT = MAX_DEVICE_COUNT / 2;

@@ -1,6 +1,7 @@
 #include "./rdm.hpp"
 
 #include <cmath>
+#include <const/ppp_const.hpp>
 #include <pp_common/service_runtime.hpp>
 #include <pp_protocol/command.hpp>
 #include <pp_protocol/p_relay_register.hpp>
@@ -97,8 +98,8 @@ bool xRelayDispatcherMaster::OnRelayEntryPacket(const xTcpServiceClientConnectio
         auto & Context             = RelayEntryContextPool[NewContextId];
         Context.ServerId           = NewContextId;
         Context.RelayServerType    = Register.RelayServerType;
-        Context.DeviceEntryAddress = Register.ExportDeviceSideAddress;
-        Context.ProxyEntryAddress  = Register.ExportProxySideAddrfess;
+        Context.DeviceEntryAddress = Register.ExportDeviceEntryAddress;
+        Context.ProxyEntryAddress  = Register.ExportProxyEntryAddress;
         Handle->UserContext.P      = &Context;
         DEBUG_LOG("new Relay connection, ServerId=%" PRIx64 ", Type=%u DeviceEntry=%s, ProxyEntry=%s",  //
                   Context.ServerId, (unsigned)Context.RelayServerType, Context.DeviceEntryAddress.ToString().c_str(), Context.ProxyEntryAddress.ToString().c_str());
@@ -179,8 +180,8 @@ void xRelayDispatcherMaster::DispatchRelayHeartbeat(xRelayEntryContext & RelayCo
         auto RHB                       = xPP_RelayInfoBroadcast();
         RHB.Type                       = RelayContext.RelayServerType;
         RHB.ServerId                   = RelayContext.ServerId;
-        RHB.ExportDeviceSideAddress    = RelayContext.DeviceEntryAddress;
-        RHB.ExportProxySideAddrfess    = RelayContext.ProxyEntryAddress;
+        RHB.ExportDeviceEntryAddress   = RelayContext.DeviceEntryAddress;
+        RHB.ExportProxyEntryAddress    = RelayContext.ProxyEntryAddress;
         RelayContext.HeartbeatDataSize = WriteMessage(RelayContext.HeartbeatBuffer, Cmd_RelayHeartbeatBroadcast, RHB);
 
         DEBUG_LOG("Build RelayHeartbeat buffer: result_size=%zi", RelayContext.HeartbeatDataSize);
