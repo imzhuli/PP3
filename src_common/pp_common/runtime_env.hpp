@@ -3,6 +3,7 @@
 
 // c++ headers
 #include <filesystem>
+#include <xel/core/core_os.hpp>
 
 struct xRuntimeEnv {
     std::filesystem::path HomeDir;
@@ -16,6 +17,7 @@ struct xRuntimeEnv {
     std::filesystem::path DefaultAuditLoggerFilePath;
     std::filesystem::path DefaultLoggerFilePath;
     std::filesystem::path DefaultLocalServerIdFilePath;
+    std::filesystem::path DefaultLockFilePath;
 
     std::filesystem::path GetBinaryPath(const std::filesystem::path & Filename) const;
     std::filesystem::path GetConfigPath(const std::filesystem::path & Filename) const;
@@ -24,7 +26,8 @@ struct xRuntimeEnv {
 
     /// @brief
     /// @return
-    xConfigLoader LoadConfig() const;
+    xConfigLoader  LoadConfig() const { return xConfigLoader(DefaultConfigFilePath); }
+    xel::xFileLock Lock() const { return xel::xFileLock(DefaultLockFilePath); }
 
     static xRuntimeEnv FromCommandLine(int CmdArgc, char ** CmdArgv);
 };

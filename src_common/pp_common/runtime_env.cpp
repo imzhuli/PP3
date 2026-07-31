@@ -62,6 +62,7 @@ xRuntimeEnv xRuntimeEnv::FromCommandLine(int CmdArgc, char ** CmdArgv) {
     Env.DefaultAuditLoggerFilePath   = Env.CacheDir / (Env.ProgramName + ".adt");
     Env.DefaultLoggerFilePath        = Env.CacheDir / (Env.ProgramName + ".log");
     Env.DefaultLocalServerIdFilePath = Env.CacheDir / (Env.ProgramName + ".sid");
+    Env.DefaultLockFilePath          = Env.CacheDir / (Env.ProgramName + ".lock");
 
     return Env;
 }
@@ -92,7 +93,3 @@ std::filesystem::path xRuntimeEnv::GetCachePath(const std::filesystem::path & Fi
 }
 
 /////
-
-xConfigLoader xRuntimeEnv::LoadConfig() const {
-    return xConfigLoader(DefaultConfigFilePath);
-}

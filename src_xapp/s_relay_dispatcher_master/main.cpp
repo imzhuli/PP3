@@ -14,7 +14,10 @@ static auto DispatcherEntryServerIdCleint = xServerIdClient();
 
 int main(int argc, char ** argv) {
     X_VAR xServiceEnvironmentGuard(argc, argv);
-    auto  CL = ServiceEnvironment.LoadConfig();
+    auto  Lock = ServiceEnvironment.Lock();
+    X_RUNTIME_ASSERT(xRaii::IsReady(Lock));
+
+    auto CL = ServiceEnvironment.LoadConfig();
 
     CL.Require(SmallServerListServer, "SmallServerListServer");
     CL.Require(RelayEntryBindAddress, "RelayEntryBindAddress");
