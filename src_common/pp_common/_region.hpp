@@ -17,6 +17,8 @@ static constexpr const xContinentId CID_ANTARCTIC     = 0x07;
 
 static constexpr const xContinentId WildContinentId = xContinentId(-1);
 
+using xIsoCountryName = std::array<char, 2>;
+
 struct xGeoInfo {
     xCountryId CountryId;
     xStateId   StateId;
@@ -29,5 +31,5 @@ struct xRegionInfo : xGeoInfo {
     std::string ShortCityName;
 };
 
-extern xCountryId   CountryCodeToCountryId(const char * CC);
+extern xCountryId   CountryCodeToCountryId(const xIsoCountryName & CountryName);
 extern xContinentId GetContinentIdByCountry(xCountryId CountryId);

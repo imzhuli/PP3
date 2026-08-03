@@ -29,7 +29,7 @@ bool xRelayInfoObserver::OnPacket(const xTcpClientPoolConnectionHandle & Handle,
         }
         auto ServerIndex = ExtractIndexFromRelayServerId(B.ServerId);
         if (ServerIndex >= MAX_RELAY_SERVER_LIST_SIZE) {
-            AuditLogger->E("ServerIndex overflow: %" PRIx32 "", ServerIndex);
+            DEBUG_LOG("ServerIndex overflow: %" PRIx32 "", ServerIndex);
             return false;
         }
         auto & RelayInfo = RelayServerList[ServerIndex];

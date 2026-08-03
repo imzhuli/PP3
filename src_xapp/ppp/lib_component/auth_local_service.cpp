@@ -285,8 +285,14 @@ static void LoadFile(xAuthLocalMap & TargetMap, const fs::path & FilePath) {
         auto   AccountKey = CombineAccountPass(Account, Password);
         auto & Node       = TargetMap[AccountKey];
 
+        if (CountryCode.size() != 2) {
+            Logger->E("invalid country code: %s", CountryCode.c_str());
+            continue;
+        }
+        auto IsoCountryName = xIsoCountryName{ CountryCode[0], CountryCode[1] };
+
         Node.GlobalAuthId        = AuthId;
-        Node.CountryId           = CountryCodeToCountryId(CountryCode.c_str());
+        Node.CountryId           = CountryCodeToCountryId(IsoCountryName);
         Node.ProxyClientAddress  = ProxyIp;
         Node.StaticExportAddress = ExportAddress;
         Node.EnableUdp           = atoi(Udp.c_str());

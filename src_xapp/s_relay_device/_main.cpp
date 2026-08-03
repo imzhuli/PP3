@@ -62,8 +62,8 @@ int main(int argc, char ** argv) {
     RelayDispatcherMaster.OnServerConnected = [] {
         auto Register                     = xPP_RelayRegister();
         Register.RelayServerType          = eRelayServerType::DEVICE;
-        Register.ExportDeviceEntryAddress = DeviceEntryAddress;
-        Register.ExportProxyEntryAddress  = ProxyEntryAddress;
+        Register.ExportDeviceEntryAddress = ExportDeviceEntryAddress;
+        Register.ExportProxyEntryAddress  = ExportProxyEntryAddress;
         RelayDispatcherMaster.PostMessage(Cmd_RelayInfoRegister, 0, Register);
     };
     RelayDispatcherMaster.OnServerPacket = [](xPacketCommandId CommandId, xPacketRequestId RequestId, ubyte * PayloadPtr, size_t PayloadSize) -> bool {

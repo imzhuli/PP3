@@ -1,5 +1,5 @@
 #pragma once
-#include <abstract/relay_abstract.hpp>
+#include "../ppp/abstract/relay_abstract.hpp"
 
 struct xRelayDeviceConnection;
 

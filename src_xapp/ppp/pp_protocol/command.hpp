@@ -94,9 +94,6 @@ static constexpr const xPacketCommandId Cmd_DV_RL_KeepAliveUdpChannel  = Cmd_DV_
 //
 static constexpr const xPacketCommandId Cmd_DV_RL_DnsQuery             = Cmd_DV_RL_Base + 0x20;
 static constexpr const xPacketCommandId Cmd_DV_RL_DnsQueryResp         = Cmd_DV_RL_Base + 0x21;
-//
-static constexpr const xPacketCommandId Cmd_DV_RL_AddressChallenge     = Cmd_DV_RL_Base + 0x30;
-static constexpr const xPacketCommandId Cmd_DV_RL_AddressChallengeResp = Cmd_DV_RL_Base + 0x31;
 
 // device-state-relay(dsr) / device-selector
 static constexpr const xPacketCommandId Cmd_DSR_DS_Base         = 0x09'000;

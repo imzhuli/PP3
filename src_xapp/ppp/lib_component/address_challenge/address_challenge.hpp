@@ -9,3 +9,5 @@ public:
 private:
     std::vector<xUdpService *> UdpServiceList;
 };
+
+extern xNetAddress DecryptAddressKey(const std::string_view & view);
