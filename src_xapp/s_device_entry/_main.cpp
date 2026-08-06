@@ -1,5 +1,6 @@
 #include "./local_relay_info_manager.hpp"
 
+#include <const/ppp_const.hpp>
 #include <iostream>
 #include <lib_component/address_challenge/address_challenge.hpp>
 #include <lib_component/region/region_mmdb.hpp>
@@ -14,34 +15,10 @@ static auto AddressChallengeBindAddressList = std::string();
 static auto ServerIdServerAddress           = xel::xNetAddress();
 static auto DeviceChallengeBindAddress      = xel::xNetAddress();
 static auto MmdbFilename                    = std::string();
+static auto StartServiceDelay               = 6 * 60'000;
 
 static auto SmallServerListDownloader = xSmallServerListDownloader();
 static auto DeviceChallengeService    = xUdpService();
-
-static constexpr const std::string SecKey = "7788414";
-
-static void OnDeviceEntryPacket(const xUdpServiceChannelHandle & Handle, xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) {
-    if (CmdId == Cmd_DV_CC_Challenge) {
-        DEBUG_LOG("Cmd_DV_CC_Challenge");
-        auto Req = xPP_DeviceChallenge();
-        if (!Req.Deserialize(Payload, PayloadSize)) {
-            DEBUG_LOG("invalid protocol");
-            return;
-        }
-
-        auto DeviceAddress = xNetAddress();
-        if (Req.AddressKey4.size()) {
-            DeviceAddress = DecryptAddressKey(Req.AddressKey4);
-        } else if (Req.AddressKey6.size()) {
-            DeviceAddress = DecryptAddressKey(Req.AddressKey6);
-        } else {
-            DEBUG_LOG("no device address key found");
-        }
-        DEBUG_LOG("DeviceAddress: %s", DeviceAddress.ToString().c_str());
-
-        return;
-    }
-}
 
 int main(int argc, char ** argv) {
     X_VAR xServiceEnvironmentGuard(argc, argv);
@@ -50,6 +27,7 @@ int main(int argc, char ** argv) {
     CL.Require(ServerIdServerAddress, "ServerIdServerAddress");
     CL.Require(DeviceChallengeBindAddress, "DeviceChallengeBindAddress");
     CL.Require(MmdbFilename, "MmdbFilename");
+    CL.Optional(StartServiceDelay, "StartServiceDelay", DEVICE_ENTRY_DEFAULT_INIT_DELAY_MS);
 
     auto Lines     = xel::Split(AddressChallengeBindAddressList, ",");
     auto Addresses = std::vector<xNetAddress>();
@@ -78,7 +56,41 @@ int main(int argc, char ** argv) {
     SERVICE_RUNTIME_ASSERT(xRaii::IsReady(*RelayInfoObserver));
 
     X_RESOURCE_GUARD_ASSERTED(DeviceChallengeService, ServiceIoContext, DeviceChallengeBindAddress);
-    DeviceChallengeService.OnPacket = OnDeviceEntryPacket;
+    DeviceChallengeService.OnPacket = [&](const xUdpServiceChannelHandle & Handle, xPacketCommandId CmdId, xPacketRequestId ReqId, ubyte * Payload, size_t PayloadSize) {
+        if (CmdId == Cmd_DV_CC_Challenge) {
+
+            DEBUG_LOG("Cmd_DV_CC_Challenge");
+            auto Req = xPP_DeviceChallenge();
+            if (!Req.Deserialize(Payload, PayloadSize)) {
+                DEBUG_LOG("invalid protocol");
+                return;
+            }
+            auto DeviceAddress = xNetAddress();
+            if (Req.AddressKey4.size()) {
+                DeviceAddress = DecryptAddressKey(Req.AddressKey4);
+                DEBUG_LOG("DeviceAddress4: %s", DeviceAddress.ToString().c_str());
+            } else if (Req.AddressKey6.size()) {
+                DeviceAddress = DecryptAddressKey(Req.AddressKey6);
+                DEBUG_LOG("DeviceAddress6: %s", DeviceAddress.ToString().c_str());
+            }
+            if (!DeviceAddress) {
+                DEBUG_LOG("invalid device key");
+                return;
+            }
+            auto RelayAddress = LocalRelayInfoManager->GetRelayServerByDeviceIp(DeviceAddress);
+            auto Resp         = xPP_DeviceChallengeResp();
+            if (RelayAddress) {
+                Resp.Accepted     = true;
+                Resp.RelayAddress = RelayAddress;
+                DEBUG_LOG("device accepted: relay address=%s", RelayAddress.ToString().c_str());
+            } else {
+                Resp.BanVersionTimeMS = CLIENT_CHALLENGE_RETRY_TIMEOUT_MS;
+                DEBUG_LOG("device refused: timeout = %zi", size_t(Resp.BanVersionTimeMS));
+            }
+            Handle.PostMessage(Cmd_DV_CC_ChallengeResp, 0, Resp);
+            return;
+        }
+    };
 
     RelayInfoObserver->OnRelayUpdated = [&](const auto & RelayInfo) {
         DEBUG_LOG(

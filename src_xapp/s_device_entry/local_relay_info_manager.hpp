@@ -33,6 +33,7 @@ public:
     void SetRegionService(xRegionServiceAbstract * Service) { RegionService = Service; }
     void UpdateRelayServerInfo(const xDE_LocalRelayInfoBase & ServerInfo);
     void RemoveRelayServerInfo(uint64_t ServerId);
+    auto GetRelayServerByDeviceIp(const xNetAddress & DeviceAddress) -> xNetAddress;
 
 private:
     std::array<xDE_LocalRelayInfo, MAX_RELAY_SERVER_LIST_SIZE> FullRelayInfoList      = {};

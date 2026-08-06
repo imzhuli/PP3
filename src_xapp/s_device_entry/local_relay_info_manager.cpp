@@ -62,3 +62,23 @@ void xDE_LocalRelayInfoManager::RemoveRelayServerInfo(uint64_t ServerId) {
     xLocalRelayInfoList::Remove(Node);
     Reset(Node.BaseInfo);
 }
+
+auto xDE_LocalRelayInfoManager::GetRelayServerByDeviceIp(const xNetAddress & DeviceAddress) -> xNetAddress {
+    auto Future = xRegionFuture();
+    RegionService->GetRegion(DeviceAddress, Future);
+    assert(Future.IsReady);
+    if (!Future.CountryId) {
+        DEBUG_LOG("invalid country id for relay info is found");
+        return {};
+    }
+
+    auto & ListEntry = RelayInfoListByCountry[*Future.CountryId];
+    auto & List      = DeviceAddress.Is4() ? ListEntry.V4 : ListEntry.V6;
+    auto   First     = List.PopHead();
+    if (!First) {
+        DEBUG_LOG("no relay server found!");
+        return {};
+    }
+    List.AddTail(*First);
+    return First->BaseInfo.ExportDeviceEntryAddress;
+}
