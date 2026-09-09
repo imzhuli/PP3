@@ -4,16 +4,6 @@
 
 #include <pp_common/service_runtime.hpp>
 
-static constexpr const size_t   PA_CLIENT_AUTH_TIMEOUT_MS        = 5'000;
-static constexpr const uint64_t PA_FUTURE_TIMEOUT_MS             = 2'000;
-static constexpr const size_t   PA_AUDIT_TIMEOUT_MS              = 5'000;
-static constexpr const size_t   PA_GRACEFUL_KILL_TIMEOUT_MS      = 60'000;
-static constexpr const size_t   PA_MAX_CLIENT_CONNECTION         = 20'0000;
-static constexpr const size_t   PA_MAX_CLIENT_REQUEST_PER_SECOND = 5'0000;
-static constexpr const size_t   PA_MAX_UDP_PACKET_SIZE           = 4200;
-static constexpr const size_t   PA_UDP_RESERVED_HEADER_SIZE      = 32;
-static constexpr const size_t   PA_CLIENT_DEFAULT_BUFFER_SIZE    = 16'000;
-
 static_assert(PA_MAX_UDP_PACKET_SIZE + PA_UDP_RESERVED_HEADER_SIZE < xel::MaxPacketSize);  // core_io buffer size
 
 static ubyte S5_CONNECTION_ESTABLISHED[] = {

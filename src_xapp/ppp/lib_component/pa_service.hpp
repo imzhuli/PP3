@@ -88,9 +88,9 @@ public:
     bool Init(const std::vector<xExportBindAddress> & AddressList);
     void Clean();
     void Tick(uint64_t NowMS);
-    void BindAuthService(xAuthServiceAbstract * Service) { AuthService = Service; }
+    void BindAuthService(xAuthServiceStub * Service) { AuthService = Service; }
     void BindDeviceLocatorService(xDeviceLocatorServiceAbstract * Service) { DeviceLocatorService = Service; }
-    void BindRelayService(xRelayServiceAbstract * Service) { RelayService = Service; }
+    void BindRelayService(xRelayServiceStub * Service) { RelayService = Service; }
     void BindTargetReportService(xTargetReporterServiceAbstract * Service) { TargetReportService = Service; }
     void EnableUdp4(const xNetAddress & BindAddress, const xNetAddress & ExportAddress);
     void EnableUdp6(const xNetAddress & BindAddress, const xNetAddress & ExportAddress);
@@ -195,9 +195,9 @@ private:
     xFuturePoolManager<xPA_AcquireDeviceConnectionFuture> AcquireDeviceConnectionFutureManager;
     xFuturePoolManager<xPA_AcquireDeviceUdpChannelFuture> AcquireDeviceUdpChannelFutureManager;
 
-    xAuthServiceAbstract *           AuthService          = nullptr;
+    xAuthServiceStub *               AuthService          = nullptr;
     xDeviceLocatorServiceAbstract *  DeviceLocatorService = nullptr;
-    xRelayServiceAbstract *          RelayService         = nullptr;
+    xRelayServiceStub *              RelayService         = nullptr;
     xTargetReporterServiceAbstract * TargetReportService  = nullptr;
 
     xFutureList AuthFutureTimeoutList;

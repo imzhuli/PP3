@@ -25,6 +25,9 @@ def build():
         os.chdir(unzipped_src_dir)
         os.system(f'./Configure --prefix={install_dir!r} '
         "no-shared "                        # 只生静态库
+        "no-tests "                         # 禁用测试
+        "no-docs "
+        "no-apps "
         "no-tls1 no-tls1_1 no-tls1_2 "      # 禁用不需要的TLS版本
         "no-ssl3 no-ssl3-method "           # 禁用SSL
         "no-dtls no-dtls1 no-dtls1_2 "      # 禁用DTLS
@@ -43,8 +46,6 @@ def build():
         "no-ocsp "
         # "no-__asm "
         # "no-afalgeng "                     # 禁用硬件引擎
-        "no-tests "                          # 禁用测试
-        "no-docs "
         )
         os.system(f"make -j 16")
         os.system(f"make install")

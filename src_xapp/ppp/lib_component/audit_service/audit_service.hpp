@@ -16,7 +16,7 @@ struct xSmallServerList {
 
 class xAuditService final
     : public xTargetReporterServiceAbstract
-    , public xAuditServiceAbstract {
+    , public xAuditServiceStub {
 public:
     bool Init(const xNetAddress & ServerListServerAddress, const xNetAddress & LocalBindAddress);
     void Clean();

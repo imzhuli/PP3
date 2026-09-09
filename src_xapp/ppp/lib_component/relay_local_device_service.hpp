@@ -64,7 +64,7 @@ struct xRelayLocalBindingOption {
 };
 
 class xRelayLocalBindingService final
-    : public xRelayServiceAbstract
+    : public xRelayServiceStub
     , public xDeviceLocatorServiceAbstract
     , xTcpConnection::iListener
     , xUdpChannel::iListener {

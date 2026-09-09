@@ -10,15 +10,20 @@ struct xRelayDevice : xListNode {
     ubyte                    HeartbeatBuffer[72];
 };
 
-struct xRelayDeviceConnection : xListNode {
+struct xRelayDeviceConnection : xListNode {  // device tcp connection to relay server
     uint64_t ConnectionId = 0;
     uint64_t Ipv4DeviceId = 0;
     uint64_t Ipv6DeviceId = 0;
 };
 
-struct xRelayDeviceSideVirtualConnection : xListNode {
+struct xRelayDeviceSideVirtualConnection : xListNode {  // device tcp connection to business target
     uint64_t DeviceId            = 0;
     uint64_t VirtualConnectionId = 0;
+};
+
+struct xRelayDeviceSideVirtualUdpChannel : xListNode {  // device udp channel bind for business
+    uint64_t DeviceId            = 0;
+    uint64_t VirtualUdpChannelId = 0;
 };
 
 class xRelayDeviceSideService final

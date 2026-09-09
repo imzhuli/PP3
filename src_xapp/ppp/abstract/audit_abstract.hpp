@@ -27,7 +27,7 @@ struct xAuditBlockAccount {
     std::string ToString() const;
 };
 
-struct xAuditServiceAbstract : xAbstract {
+struct xAuditServiceStub : xAbstract {
     virtual void ReportUsage(const xAuditUsage & UsageInfo)                      = 0;
     virtual void ReportBlockAccount(const xAuditBlockAccount & BlockAccountInfo) = 0;
 };
