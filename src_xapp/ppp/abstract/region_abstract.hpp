@@ -8,6 +8,6 @@ struct xRegionFuture final : xFutureBase {
     xExpected<xCountryId> CountryId = UnexpctedResult;
 };
 
-struct xRegionServiceAbstract : xAbstract {
+struct xRegionServiceStub : xAbstract {
     virtual void GetRegion(const xel::xNetAddress & NA, xRegionFuture & Future) = 0;
 };

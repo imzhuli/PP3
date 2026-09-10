@@ -2,7 +2,7 @@
 #include "./mmdb_wrapper.hpp"
 
 class xRegionServiceMmdb final
-    : public xRegionServiceAbstract
+    : public xRegionServiceStub
     , public xRaii {
 public:
     xRegionServiceMmdb(const char * filename);

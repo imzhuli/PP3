@@ -28,7 +28,7 @@ class xLocalDeviceUdpChannel
 };
 
 class xLocalDeviceManager
-    : public xDeviceManagerAbstract {
+    : public xDeviceManagerStub {
 public:
     bool Init(const std::vector<xLocalDeviceBinding> & LocalDeviceBindingList);
     void Clean();

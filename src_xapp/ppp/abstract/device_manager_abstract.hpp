@@ -9,7 +9,7 @@ struct xDeviceCreateUdpChannelFuture : xFutureBase {
     xExpected<uint64_t /* UdpChannelId */> Result = UnexpctedResult;
 };
 
-struct xDeviceManagerAbstract : xAbstract {
+struct xDeviceManagerStub : xAbstract {
     using xDeviceConectionEstablishedCallback = std::function<void(uint64_t ConnectionId, bool Connected)>;
     using xDeviceConectionClosedCallback      = std::function<void(uint64_t ConnectionId)>;
     using xDeviceConnectionDataCallback       = std::function<void(uint64_t ConnectionId, void * DataPtr, size_t DataSize)>;

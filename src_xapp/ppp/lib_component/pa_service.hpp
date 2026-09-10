@@ -77,7 +77,7 @@ class xProxyAccessService final
     : xTcpServer::iListener
     , xTcpConnection::iListener
     , xUdpChannel::iListener
-    , public xProxyServiceAbstract {
+    , public xProxyServiceStub {
 public:
     struct xExportBindAddress {
         xNetAddress BindAddress;
@@ -89,7 +89,7 @@ public:
     void Clean();
     void Tick(uint64_t NowMS);
     void BindAuthService(xAuthServiceStub * Service) { AuthService = Service; }
-    void BindDeviceLocatorService(xDeviceLocatorServiceAbstract * Service) { DeviceLocatorService = Service; }
+    void BindDeviceLocatorService(xDeviceLocatorServiceStub * Service) { DeviceLocatorService = Service; }
     void BindRelayService(xRelayServiceStub * Service) { RelayService = Service; }
     void BindTargetReportService(xTargetReporterServiceAbstract * Service) { TargetReportService = Service; }
     void EnableUdp4(const xNetAddress & BindAddress, const xNetAddress & ExportAddress);
@@ -196,7 +196,7 @@ private:
     xFuturePoolManager<xPA_AcquireDeviceUdpChannelFuture> AcquireDeviceUdpChannelFutureManager;
 
     xAuthServiceStub *               AuthService          = nullptr;
-    xDeviceLocatorServiceAbstract *  DeviceLocatorService = nullptr;
+    xDeviceLocatorServiceStub *      DeviceLocatorService = nullptr;
     xRelayServiceStub *              RelayService         = nullptr;
     xTargetReporterServiceAbstract * TargetReportService  = nullptr;
 

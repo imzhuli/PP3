@@ -30,7 +30,7 @@ public:
     ~xDE_LocalRelayInfoManager();
 
 public:
-    void SetRegionService(xRegionServiceAbstract * Service) { RegionService = Service; }
+    void SetRegionService(xRegionServiceStub * Service) { RegionService = Service; }
     void UpdateRelayServerInfo(const xDE_LocalRelayInfoBase & ServerInfo);
     void RemoveRelayServerInfo(uint64_t ServerId);
     auto GetRelayServerByDeviceIp(const xNetAddress & DeviceAddress) -> xNetAddress;
@@ -38,7 +38,7 @@ public:
 private:
     std::array<xDE_LocalRelayInfo, MAX_RELAY_SERVER_LIST_SIZE> FullRelayInfoList      = {};
     std::map<xCountryId, xDE_LocalRelayInfListEntry>           RelayInfoListByCountry = {};
-    xRegionServiceAbstract *                                   RegionService          = nullptr;
+    xRegionServiceStub *                                       RegionService          = nullptr;
     //
     struct xAudit {
         size_t InvalidRelayServerAddress = 0;

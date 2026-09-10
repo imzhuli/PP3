@@ -141,11 +141,11 @@ void xRelayLocalBindingService::SetDeviceBufferSize(size_t Size) {
     DefaultBufferSize = Size;
 }
 
-void xRelayLocalBindingService::BindProxyService(xProxyServiceAbstract * ProxyService) {
+void xRelayLocalBindingService::BindProxyService(xProxyServiceStub * ProxyService) {
     SERVICE_RUNTIME_ASSERT(!Steal(this->ProxyService, ProxyService));
 }
 
-void xRelayLocalBindingService::BindDnsService(xDnsServiceAbstract * DnsService) {
+void xRelayLocalBindingService::BindDnsService(xDnsServiceStub * DnsService) {
     SERVICE_RUNTIME_ASSERT(!Steal(this->DnsService, DnsService));
 }
 

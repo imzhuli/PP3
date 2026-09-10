@@ -24,6 +24,6 @@ struct xDeviceRequest {
     xDeviceSelectionStrategy Strategy;
 };
 
-struct xDeviceLocatorServiceAbstract : xAbstract {
+struct xDeviceLocatorServiceStub : xAbstract {
     virtual void AcquireDevice(const xDeviceRequest & Request, xAcquireDeviceFuture & Future) = 0;
 };

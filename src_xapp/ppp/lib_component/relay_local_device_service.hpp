@@ -65,7 +65,7 @@ struct xRelayLocalBindingOption {
 
 class xRelayLocalBindingService final
     : public xRelayServiceStub
-    , public xDeviceLocatorServiceAbstract
+    , public xDeviceLocatorServiceStub
     , xTcpConnection::iListener
     , xUdpChannel::iListener {
 
@@ -73,8 +73,8 @@ public:
     bool Init(uint64_t ServerId, const std::string & AddressPairFile);
     bool Init(uint64_t ServerId, const std::vector<xRelayLocalBindingOption> & BindAddressPairList);
     void Clean();
-    void BindProxyService(xProxyServiceAbstract * ProxyService);
-    void BindDnsService(xDnsServiceAbstract * DnsService);
+    void BindProxyService(xProxyServiceStub * ProxyService);
+    void BindDnsService(xDnsServiceStub * DnsService);
     void SetDeviceBufferSize(size_t Size);
     void Tick(uint64_t NowMS);
 
@@ -130,8 +130,8 @@ private:
     xel::xIndexedStorage<xRelayLocalDeviceConnection> LocalConnectionPool;
     xel::xIndexedStorage<xRelayLocalDeviceUdpChannel> LocalUdpChannelPool;
 
-    xProxyServiceAbstract *                   ProxyService = nullptr;
-    xDnsServiceAbstract *                     DnsService   = nullptr;
+    xProxyServiceStub *                       ProxyService = nullptr;
+    xDnsServiceStub *                         DnsService   = nullptr;
     xFuturePoolManager<xRelayDnsResultFuture> DnsFutureManager;
 
     xRelayLocalDeviceConnectionTimeoutList ConnectionEstablishTimeoutList;
